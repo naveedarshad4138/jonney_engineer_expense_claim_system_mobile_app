@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "fc79a239-4bbb-4a01-bd58-ff7146c1c99e",
+		"name": "saas_website",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33808702"
+	},
+	"item": [
+		{
+			"name": "authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"naveed@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:5000/api/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"naveed\",\r\n    \"email\": \"naveed@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:5000/api/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "send-otp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"naveed@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:5000/api/auth/send-otp"
+					},
+					"response": []
+				},
+				{
+					"name": "verifyOtp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"naveed@gmail.com\",\r\n    \"otp\": \"\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:5000/api/auth/verify-otp"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+								"type": "text"
+							}
+						],
+						"url": "localhost:5000/api/auth/user"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

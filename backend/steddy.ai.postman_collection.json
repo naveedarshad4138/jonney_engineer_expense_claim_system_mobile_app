@@ -1,0 +1,734 @@
+{
+	"info": {
+		"_postman_id": "e4c414a4-7af9-4b91-9c08-708170f098a1",
+		"name": "steddy.ai",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33808702"
+	},
+	"item": [
+		{
+			"name": "authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"naveed@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://wasimamjad.com/API/naveed/2025/steddy_web/backend/api/auth/login",
+							"protocol": "https",
+							"host": [
+								"wasimamjad",
+								"com"
+							],
+							"path": [
+								"API",
+								"naveed",
+								"2025",
+								"steddy_web",
+								"backend",
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"naveedarshad4138@gmail.com\",\r\n    \"email\": \"naveedarshad4138@gmail.com\",\r\n    \"password\": \"naveed\",\r\n    \"planName\": \"Basic\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "send-otp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"naveed@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/auth/send-otp",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"send-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verifyOtp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"naveed@gmail.com\",\r\n    \"otp\": \"\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/auth/verify-otp",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"verify-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzROakU0WVRSaVlUVTFOamt5TXpKbVlXRXpOVEF6SWl3aWNtOXNaU0k2SWtGa2JXbHVJbjBzSW1saGRDSTZNVGMxTXpZNE1qTTVNQ3dpWlhod0lqb3hOelV6TmpnMU9Ua3dmUS4yUzRZR0xvcC1BUWtSRDdEb3Y3Rk0xUnJRbFg2cDNaSWItX1hTeHlqX2lBIiwiZXhwaXJlc0F0IjoxNzUzNjg1OTkwMDY3fQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\":\"Naveed@12\", \r\n    \"newPassword\":\"naveedarshad41381@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/auth/update-password",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"update-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:5000/api/auth/user",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateuser",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"Naveed Arshad11\",\r\n    \"email\": \"naveedarshad413811@gmail.com\",\r\n    \"role\" : \"Admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/auth/user/68851fc2fbdaa5aa1777fd1b",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"user",
+								"68851fc2fbdaa5aa1777fd1b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteuser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:5000/api/auth/user",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allUsers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:5000/api/auth/allusers",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"allusers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FormHistory",
+			"item": [
+				{
+					"name": "add",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzROakU0WVRSaVlUVTFOamt5TXpKbVlXRXpOVEF6SWl3aWNtOXNaU0k2SWtGa2JXbHVJbjBzSW1saGRDSTZNVGMxTXpnMk1qa3hPQ3dpWlhod0lqb3hOelV6T0RZMk5URTRmUS5rM0JMMHNraFdOZzRvRHZuZldHc0xta3RFMnRUZ0hlSmNTbzFZd1paczk0IiwiZXhwaXJlc0F0IjoxNzUzODY2NTE4NjU5fQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "business_name",
+									"value": "The Vibration Guys",
+									"type": "text"
+								},
+								{
+									"key": "owner_name",
+									"value": "The Vibration Guys",
+									"type": "text"
+								},
+								{
+									"key": "ein",
+									"value": "82-3993418",
+									"type": "text"
+								},
+								{
+									"key": "domain",
+									"value": "acmecorp.com",
+									"type": "text"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/C:/Users/hp/Downloads/fwdchipmastersmfgincsubmissionforreview/MAY 2025.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/api/form/add",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"form",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add form history",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzRZVFk1Wm1NMlpUa3daVEkyTXpobE1UUXdNR0poSWl3aWNtOXNaU0k2SWtGa2JXbHVJaXdpZFhObGNtNWhiV1VpT2lKT1lYWmxaV1FnUVhKemFHRmtJbjBzSW1saGRDSTZNVGMxTkRRMk1UTXlNQ3dpWlhod0lqb3hOelUwTkRZME9USXdmUS5nZ0p5WGNrZEwzejdLV1pMUll4YktQYXZLRTA5VkF0ZmNfSkM5M0RYaUJVIiwiZXhwaXJlc0F0IjoxNzU0NDY0OTIwMTI2fQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"form_id\": \"6892fae9a00de1c8343f8ca6\",\r\n    \"websiteSearch\": {\r\n    \"outputs\": {\r\n        \"out-0\": \"{'domain': 'STACK-AI.COM', 'status': ['client delete prohibited', 'client transfer prohibited'], 'registrar': None, 'nameservers': ['NS1.VERCEL-DNS.COM', 'NS2.VERCEL-DNS.COM'], 'events': {'registration': '2022-12-07T21:21:31Z', 'expiration': '2025-12-07T21:21:31Z', 'last changed': '2024-11-23T00:22:33Z', 'last update of RDAP database': '2025-08-06T06:49:02Z'}}\"\r\n    },\r\n    \"citations\": null,\r\n    \"run_id\": \"027fee13-48e6-4a2b-ab07-c9d733d7e658\",\r\n    \"metadata\": null,\r\n    \"progress_data\": null\r\n}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/form/history-results",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"form",
+								"history-results"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get formhistory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzRZVFk1Wm1NMlpUa3daVEkyTXpobE1UUXdNR0poSWl3aWNtOXNaU0k2SWtGa2JXbHVJaXdpZFhObGNtNWhiV1VpT2lKT1lYWmxaV1FnUVhKemFHRmtJbjBzSW1saGRDSTZNVGMxTkRRMk1UTXlNQ3dpWlhod0lqb3hOelUwTkRZME9USXdmUS5nZ0p5WGNrZEwzejdLV1pMUll4YktQYXZLRTA5VkF0ZmNfSkM5M0RYaUJVIiwiZXhwaXJlc0F0IjoxNzU0NDY0OTIwMTI2fQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"form_id\": \"6892fae9a00de1c8343f8ca6\",\r\n    \"websiteSearch\": {\r\n    \"outputs\": {\r\n        \"out-0\": \"{'domain': 'STACK-AI.COM', 'status': ['client delete prohibited', 'client transfer prohibited'], 'registrar': None, 'nameservers': ['NS1.VERCEL-DNS.COM', 'NS2.VERCEL-DNS.COM'], 'events': {'registration': '2022-12-07T21:21:31Z', 'expiration': '2025-12-07T21:21:31Z', 'last changed': '2024-11-23T00:22:33Z', 'last update of RDAP database': '2025-08-06T06:49:02Z'}}\"\r\n    },\r\n    \"citations\": null,\r\n    \"run_id\": \"027fee13-48e6-4a2b-ab07-c9d733d7e658\",\r\n    \"metadata\": null,\r\n    \"progress_data\": null\r\n}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/form/history-results",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"form",
+								"history-results"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getall",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzRZamt4T1RGaVkyUmhaak5qTURObE4ySmtNREExSWl3aWNtOXNaU0k2SWxWelpYSWlMQ0oxYzJWeWJtRnRaU0k2SW5kaGFHVmxaQ0JoYUcxaFpDQWlmU3dpYVdGMElqb3hOelUwTXpNd01ERTRMQ0psZUhBaU9qRTNOVFF6TXpNMk1UaDkudkFGYmtRbjNBQkFKc241RURRVnd0eTlTLXdvV3h1dkxhZ1hldGZfdnJEZyIsImV4cGlyZXNBdCI6MTc1NDMzMzYxNzkwNH0=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"business_name\": \"Acme Corp\",\r\n  \"owner_name\": \"John Doe\",\r\n  \"ein\": \"12-3456789\",\r\n  \"name\": \"Jane Doe\",\r\n  \"email\": \"jane@example.com\",\r\n  \"domain\": \"acmecorp.com\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://wasimamjad.com/API/naveed/2025/steddy_web/backend/api/form",
+							"protocol": "https",
+							"host": [
+								"wasimamjad",
+								"com"
+							],
+							"path": [
+								"API",
+								"naveed",
+								"2025",
+								"steddy_web",
+								"backend",
+								"api",
+								"form"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzRZamt4T1RGaVkyUmhaak5qTURObE4ySmtNREExSWl3aWNtOXNaU0k2SWxWelpYSWlMQ0oxYzJWeWJtRnRaU0k2SW5kaGFHVmxaQ0JoYUcxaFpDQWlmU3dpYVdGMElqb3hOelUwTXpNd01ERTRMQ0psZUhBaU9qRTNOVFF6TXpNMk1UaDkudkFGYmtRbjNBQkFKc241RURRVnd0eTlTLXdvV3h1dkxhZ1hldGZfdnJEZyIsImV4cGlyZXNBdCI6MTc1NDMzMzYxNzkwNH0=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://wasimamjad.com/API/naveed/2025/steddy_web/backend/api/form/688b9407a01268a04486dbca",
+							"protocol": "https",
+							"host": [
+								"wasimamjad",
+								"com"
+							],
+							"path": [
+								"API",
+								"naveed",
+								"2025",
+								"steddy_web",
+								"backend",
+								"api",
+								"form",
+								"688b9407a01268a04486dbca"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzRZamt4T1RGaVkyUmhaak5qTURObE4ySmtNREExSWl3aWNtOXNaU0k2SWxWelpYSWlMQ0oxYzJWeWJtRnRaU0k2SW5kaGFHVmxaQ0JoYUcxaFpDQWlmU3dpYVdGMElqb3hOelUwTXpNd01ERTRMQ0psZUhBaU9qRTNOVFF6TXpNMk1UaDkudkFGYmtRbjNBQkFKc241RURRVnd0eTlTLXdvV3h1dkxhZ1hldGZfdnJEZyIsImV4cGlyZXNBdCI6MTc1NDMzMzYxNzkwNH0=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"business_name\": \"The Vibration Guys1\",\r\n        \"owner_name\": \"Kathy Staudt1\",\r\n        \"ein\": \"82-39934181\",\r\n        \"domain\": \"stack-a.co\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://wasimamjad.com/API/naveed/2025/steddy_web/backend/api/form/688bb3751228c8553ebb505e",
+							"protocol": "https",
+							"host": [
+								"wasimamjad",
+								"com"
+							],
+							"path": [
+								"API",
+								"naveed",
+								"2025",
+								"steddy_web",
+								"backend",
+								"api",
+								"form",
+								"688bb3751228c8553ebb505e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CronJobs",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzBPRFZsTjJWaE5UWm1ZamsyTm1Oa05tUmtaV016SW4wc0ltbGhkQ0k2TVRjME9UVTNNelV4T1N3aVpYaHdJam94TnpRNU5UYzNNVEU1ZlEuMjduZU9OYXFsZmQ3RWNnRWMybmJQRG5UNUptMjJLOHFXVThmMFhhNXhfQSIsImV4cGlyZXNBdCI6MTc0OTU3NzExOTY1NX0=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"jobName\": \"My Cron Job111\",\r\n      \"cronTime\": \"*/1 * * * *\",// every 1 minutes\r\n      \"jobCommand\": \"https://wasimamjad.com/API/naveed/2025/cronjobstest/test.php\",\r\n      \"creditsPerRun\": 1\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/cronjob/create",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"cronjob",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Plans",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Premium\",\r\n  \"epdsLimit\": 100,\r\n  \"minIntervalMinutes\": 10,\r\n  \"timeoutSeconds\": 30,\r\n  \"saveLogs\": true,\r\n  \"saveHeadTailKB\": 5\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/plans/create",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"plans",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
