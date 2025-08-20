@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const FormHistory = require('../models/FormHistory');
+// const FormHistory = require('../models/FormHistory');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { sendOtpEmail, saveOtpGetLink, sendEmail } = require('../utils/sendmail');
@@ -160,7 +160,7 @@ exports.deleteUser = async (req, res) => {
     }
 
     // 2. Delete all form history associated with the user
-    await FormHistory.deleteMany({ user_id: userId });
+    // await FormHistory.deleteMany({ user_id: userId });
 
     res.status(200).json({
       status: 200,

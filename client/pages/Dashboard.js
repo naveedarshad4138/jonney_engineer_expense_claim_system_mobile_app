@@ -17,6 +17,7 @@ const { width } = Dimensions.get('window');
 const ITEM_WIDTH = (width - 60) / 2; // two columns with margin
 
 const dashboardItems = [
+    { id: '3', title: 'Claim Expense', icon: 'attach-money', screen: 'ExpenseClaimForm' },
   { id: '1', title: 'Profile', icon: 'account-circle', screen: 'Profile' },
   { id: '2', title: 'Change Password', icon: 'lock', screen: 'Settings' },
 //   { id: '3', title: 'Messages', icon: 'message-text', screen: 'Messages', badge: 3 },

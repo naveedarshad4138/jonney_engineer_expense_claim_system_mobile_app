@@ -1,7 +1,7 @@
 // hooks/useApi.js
 import { useState } from 'react';
 import axios from 'axios';
-import { Alert, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Constants from 'expo-constants';
 import { getToken, setToken, removeToken } from '../utils/customFunctions';
@@ -10,7 +10,6 @@ import Toast from 'react-native-toast-message';
 const apiBaseUrl = Constants.expoConfig?.extra?.apiBaseUrl || (
   Platform.OS === 'android' ? 'http://10.0.2.2:5000' : 'http://localhost:5000'
 );
-
 const useApi = () => {
   const [data, setData] = useState(null);
   const [status, setStatus] = useState(null);
@@ -80,13 +79,13 @@ const useApi = () => {
     const config = {
       headers: isMultipart ? { 'Content-Type': 'multipart/form-data' } : {},
     };
-
     try {
       const response = await apiClient.post(endpoint, newData, config);
       setData(response.data);
       showAlert(response.data?.message || successMessage, 'info');
       return response.data;
     } catch (err) {
+        console.log(err)
       const msg = err.response?.data?.message || errorMessage;
       setError(msg);
       showAlert(msg, 'error');
@@ -117,8 +116,9 @@ const useApi = () => {
     setLoading(true);
     try {
       const response = await apiClient.delete(endpoint);
+      console.log(response)
       setData(response.data);
-      showAlert(successMessage, 'info');
+      showAlert(response.data?.message || successMessage, 'info');
       return response.data;
     } catch (err) {
       const msg = err.response?.data?.message || errorMessage;

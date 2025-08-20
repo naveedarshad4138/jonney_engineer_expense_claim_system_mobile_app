@@ -36,7 +36,6 @@ export const Login = ({ setUserData }) => {
             'Login successful!',
             'Email or Password invalid!'
         );
-
         if (response && response.token) {
             await setToken(response.token, response.expiresIn);
             // const decoded = response.token;
@@ -126,7 +125,7 @@ export const Login = ({ setUserData }) => {
                         </View>
                     </View>
 
-                    <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')} style={styles.forgotPassword}>
+                    <TouchableOpacity onPress={() => navigation.navigate('ForgetPassword')} style={styles.forgotPassword}>
                         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                     </TouchableOpacity>
 

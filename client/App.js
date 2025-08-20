@@ -6,8 +6,10 @@ import Toast from 'react-native-toast-message';
 
 import { getToken } from './utils/customFunctions';
 import { Login } from './pages/Login';
+import { ForgetPassword } from './pages/ForgetPassword';
 import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
+import { AddExpenseClaim } from './pages/AddExpenseClaim';
 
 const Stack = createNativeStackNavigator();
 
@@ -51,10 +53,11 @@ export default function App() {
     <>
       <NavigationContainer>
         <Stack.Navigator initialRouteName={initialRoute} screenOptions={{ headerShown: false }}>
-          {/* <Stack.Screen name="Login" component={Login} /> */}
+          <Stack.Screen name="ForgetPassword" component={ ForgetPassword } />
           <Stack.Screen name="Login" children={(props) => <Login {...props} setUserData={setUserData}  /> } />
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Dashboard" children={(props) => <Dashboard {...props} user={userData} setUserData={setUserData} />} />
+          <Stack.Screen name="ExpenseClaimForm" component={AddExpenseClaim} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast position="top" topOffset={50} />
