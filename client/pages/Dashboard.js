@@ -11,68 +11,85 @@ import {
 import Toast from 'react-native-toast-message';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getToken, removeToken } from '../utils/customFunctions';
-import { useNavigation } from '@react-navigation/native';
+import { navigate, navigationRef } from '../components/navigationRef';
+import { CommonActions } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 const ITEM_WIDTH = (width - 60) / 2; // two columns with margin
 
 const dashboardItems = [
-    { id: '3', title: 'Claim Expense', icon: 'attach-money', screen: 'ExpenseClaimForm' },
-  { id: '1', title: 'Profile', icon: 'account-circle', screen: 'Profile' },
-  { id: '2', title: 'Change Password', icon: 'lock', screen: 'Settings' },
+    { id: '3', title: 'Claim Expense', icon: 'cash-plus', screen: 'AddExpenseClaim' },
+    { id: '4', title: 'All Claimed Expense', icon: 'cash', screen: 'AllExpenseClaimsList' },
+  // { id: '1', title: 'Profile', icon: 'account-circle', screen: 'Profile' },
+  { id: '2', title: 'Change Password', icon: 'lock', screen: 'ChangePassword' },
 //   { id: '3', title: 'Messages', icon: 'message-text', screen: 'Messages', badge: 3 },
 //   { id: '4', title: 'Notifications', icon: 'bell', screen: 'Notifications', badge: 7 },
 //   { id: '5', title: 'Analytics', icon: 'chart-line', screen: 'Analytics' },
   { id: '6', title: 'Logout', icon: 'logout', screen: 'Logout' },
 ];
 
-export const Dashboard = ({ user }) => {
-  const navigation = useNavigation();
+export const Dashboard = ({ user, setInitialRoute }) => {
+
+      // useEffect(() => {
+      //   const checkToken = async () => {
+      //     try {
+      //       const gToken = await getToken();
+      //       if (gToken) {
+      //         let decoded = JSON.parse(decodeBase64(gToken));
+      //         decoded = jwtDecode(decoded?.token);
+      //         const payload = decoded?.user;
     
-  
-    useEffect(() => {
-      const checkToken = async () => {
-        try {
-          const token = await getToken();
-          if (token==null) {
-              navigate.navigate('Login');
-          }
-        } catch (err) {
-          console.error('Token check error:', err);
-          navigate.navigate('Login');
-        }
-      };
-  
-      checkToken();
-    }, []);
+      //         if (payload) {
+      //           setUserData({
+      //             username: payload.username || '',
+      //             role: payload.role || '',
+      //           });
+               
+      //           navigate('Dashboard'); // ✅ Navigate to Dashboard
+      //         } else {
+                
+      //           navigate('Login'); // fallback
+      //         }
+      //       } else {
+          
+      //         navigate('Login');
+      //       }
+      //     } catch (err) {
+      //       console.log('Token check error:', err);
+            
+      //       navigate('Login');
+      //     }
+      //   };
+    
+      //   checkToken();
+      // }, []);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={async () => {
-    if (item.screen === 'Logout') {
-      // Clear token from AsyncStorage
-      await removeToken();
+  if (item.screen === 'Logout') {
+    await removeToken();
 
-      // Show toast
-      Toast.show({
-        type: 'success',
-        text1: 'Logout Successful',
-      });
-      // Reset navigation stack to Login
-      navigation.reset({
-          index: 0,
-          routes: [{ name: 'Login' }],
-        });
-    } else {
-      navigation.navigate(item.screen);
-    }
-  }}
+    Toast.show({
+      type: 'success',
+      text1: 'Logout Successful',
+    });
+     navigationRef.dispatch(
+    CommonActions.reset({
+      index: 0,
+      routes: [{ name: 'Login' }],
+    })
+  );
+  } else {
+    navigate(item.screen);
+  }
+}}
   style={styles.card}
   activeOpacity={0.7}
 
     >
       <View style={styles.iconWrapper}>
-        <Icon name={item.icon} size={40} color="#7C3AED" />
+       <Icon name={item.icon} size={40} color="#7C3AED" />
         {item.badge && (
           <View style={styles.badge}>
             <Text style={styles.badgeText}>{item.badge}</Text>

@@ -10,7 +10,7 @@ import {
     Platform,
     Alert as RNAlert,
 } from 'react-native';
-import useApi from '../hooks/useApi';
+import useApi from '../../hooks/useApi';
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { jwtDecode } from 'jwt-decode';
@@ -224,9 +224,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 15,
         fontSize: 16,
-        borderWidth: 2,
-        borderColor: '#E5E7EB',
+        // borderWidth: 2,
+        // borderColor: '#E5E7EB',
+        border: 'none',
         color: '#000',
+        shadowColor: '#7C3AED',
+        shadowOpacity: 0.2,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 5 },
+        elevation: 8,
     },
 
     passwordWrapper: {

@@ -2,25 +2,36 @@ const Claims = require('../models/Claims');
 
 // POST: Create a new expense claim
 exports.createExpenseClaim = async (req, res) => {
+  try {
+    // Assuming the full expense claim data is sent in req.body, including expenses array with fileurl
 
-     try {
-    const userId = req.user.id; // extracted from token by middleware
-    const { generalInfo, jobs, total } = req.body;
+    const {
+      fromDate,
+      toDate,
+      name,
+      approvedBy,
+      notes,
+      expenses,    // this contains your array with each object having fileurl already
+      totalAmount,
+    } = req.body;
 
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
+    // Validate data here if needed...
 
-    const claim = new Claims({
-      userId,
-      generalInfo,
-      jobs,
-      total,
+    // Save to DB (replace with your DB model logic)
+    const newClaim = new Claims({
+      userId: req.user.id,  // from auth middleware
+      fromDate,
+      toDate,
+      name,
+      approvedBy,
+      notes,
+      expenses,        // save the whole array as-is, including fileurl for each expense
+      totalAmount,
     });
 
-    await claim.save();
+    await newClaim.save();
 
-    res.status(201).json({ message: "Expense claim created successfully", results: claim });
+    res.status(201).json({ message: "Expense claim created successfully", claim: newClaim });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to create expense claim" });

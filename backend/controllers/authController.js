@@ -19,8 +19,7 @@ exports.register = async (req, res) => {
     const payload = { user: { id: user.id } };
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
       if (err) throw err;
-      
-      res.status(200).json({status:'200',token,expiresIn:'3600',results:[]  });
+        res.status(200).json({status:'200',token,expiresIn:'3600',results:[]  });
     });
      const token = await saveOtpGetLink(email, 60); // 60 minutes expiry
     const resetLink = `${process.env.CLIENT_URL}/reset_password?token=${encodeURIComponent(token)}`;
@@ -66,7 +65,7 @@ exports.register = async (req, res) => {
     </html>
       `;
     
-      await sendEmail(email, "Reset Your Steddy Password", html);
+      await sendEmail(email, "Reset Your Password", html);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -190,10 +189,13 @@ exports.getAllUsers = async (req, res) => {
 ////////////////// Send otp /////////////////
 exports.sendOtp = async (req, res) => {
   const { email } = req.body;
-  
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(403).json({ message: 'This email is not registered.' });
+  }
   try {
     const token = await saveOtpGetLink(email, 60); // 60 minutes expiry
-    const resetLink = `${process.env.CLIENT_URL}/reset_password?token=${encodeURIComponent(token)}`;
+    // const resetLink = `${process.env.CLIENT_URL}/reset_password?token=${encodeURIComponent(token)}`;
     
       const html = `
       <!DOCTYPE html>
@@ -213,17 +215,9 @@ exports.sendOtp = async (req, res) => {
                                 <h1 style="margin: 0 0 20px 0; color: #333333; font-size: 24px;">Password Reset Request</h1>
                                 <p style="margin: 0 0 20px 0; color: #666666; font-size: 16px;">Hi,</p>
                                 <p style="margin: 0 0 20px 0; color: #666666; font-size: 16px; line-height: 1.5;">
-                                    You requested to reset your password. Click the button below to reset it:
+                                    You requested to reset your password. Your OTP is: <strong>${token}</strong>
                                 </p>
-                                <table role="presentation" style="margin: 0 auto;">
-                                    <tr>
-                                        <td style="border-radius: 5px; background: #667eea;">
-                                            <a href="${resetLink}" style="display: inline-block; padding: 15px 30px; font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 5px;">
-                                                Reset Password
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </table>
+                            
                                 <p style="margin: 30px 0 10px 0; color: #999999; font-size: 14px;">This link will expire in 1 hour.</p>
                                 <p style="margin: 0; color: #999999; font-size: 14px;">If you didn't request this, please ignore this email.</p>
                             </td>
@@ -236,7 +230,7 @@ exports.sendOtp = async (req, res) => {
     </html>
       `;
     
-      await sendEmail(email, "Reset Your Steddy Password", html);
+      await sendEmail(email, "Reset Your Password", html);
       res.status(200).json({
         status: 200,
         message: 'Email sent successfully! Please check your inbox.',
@@ -271,7 +265,6 @@ exports.updatePassword = async (req, res) => {
   try {
     const userId = req.user.id; // from auth middleware
     const { currentPassword, newPassword } = req.body;
-
     if (!currentPassword || !newPassword) {
       return res.status(400).json({ message: 'Both current and new password are required.' });
     }
@@ -281,13 +274,13 @@ exports.updatePassword = async (req, res) => {
 
     const isMatch = await user.comparePassword(currentPassword);
     if (!isMatch) {
-      return res.status(401).json({ message: ' Incorrect password. Please try again.' });
+      return res.status(403).json({ message: ' Incorrect current password. Please try again.' });
     }
 
     user.password = await newPassword;
     await user.save();
 
-    res.status(200).json({ data:{status:200, message: 'Password updated successfully.', type: true} });
+    res.status(200).json({status:200, message: 'Password updated successfully.', type: true} );
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ message: 'Server error' });

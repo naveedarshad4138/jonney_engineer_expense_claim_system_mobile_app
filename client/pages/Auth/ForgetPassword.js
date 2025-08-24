@@ -9,7 +9,8 @@ import {
   StyleSheet,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
-import useApi from '../hooks/useApi'; // Adjust the path accordingly
+import useApi from '../../hooks/useApi'; // Adjust the path accordingly
+import { navigate } from '../../components/navigationRef';
 
 export const ForgetPassword = () => {
   const [email, setEmail] = useState('');
@@ -23,13 +24,25 @@ export const ForgetPassword = () => {
       });
       return;
     }
+    try {
+      // let results = await postData(
+      // 'auth/send-otp',
+      // { email },
+      // 'OTP sent successfully!',
+      // 'Failed to send OTP!'
+      // );
+      // console.log(results);
+      // if (results?.status == 200) {
+        navigate('ResetPassword', { email }); // Navigate to ResetPassword with email
+      // }
 
-    await postData(
-      'auth/send-otp',
-      { email },
-      'OTP sent successfully!',
-      'Failed to send OTP!'
-    );
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Failed to send OTP',
+        text2: error.message || 'An error occurred while sending OTP',
+      });
+    }
   };
 
   return (
@@ -77,44 +90,44 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     flexDirection: 'row',
-    paddingVertical: 40,
+    paddingVertical: 100,
     paddingHorizontal: 20,
     backgroundColor: '#7C3AED',
   },
 
-  leftPanel: {
-    flex: 1,
-    backgroundColor: '#4C1D95',
-    padding: 30,
-    borderRadius: 20,
-    justifyContent: 'center',
-    marginRight: 15,
-  },
+  // leftPanel: {
+  //   flex: 1,
+  //   backgroundColor: '#4C1D95',
+  //   padding: 30,
+  //   borderRadius: 20,
+  //   justifyContent: 'center',
+  //   marginRight: 15,
+  // },
 
-  logo: {
-    color: 'white',
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 30,
-  },
+  // logo: {
+  //   color: 'white',
+  //   fontSize: 28,
+  //   fontWeight: 'bold',
+  //   marginBottom: 30,
+  // },
 
-  tagline: {
-    color: 'rgba(255,255,255,0.9)',
-    fontSize: 16,
-    marginBottom: 40,
-    lineHeight: 22,
-  },
+  // tagline: {
+  //   color: 'rgba(255,255,255,0.9)',
+  //   fontSize: 16,
+  //   marginBottom: 40,
+  //   lineHeight: 22,
+  // },
 
-  features: {},
+  // features: {},
 
-  featureItem: {
-    color: '#10B981',
-    fontSize: 16,
-    marginBottom: 20,
-  },
+  // featureItem: {
+  //   color: '#10B981',
+  //   fontSize: 16,
+  //   marginBottom: 20,
+  // },
 
   rightPanel: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: 'white',
     padding: 30,
     borderRadius: 20,
@@ -154,9 +167,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     fontSize: 16,
-    borderWidth: 2,
+    // borderWidth: 2,
+    border: 'none',
     borderColor: '#E5E7EB',
     color: '#000',
+     shadowColor: '#7C3AED',
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
+    elevation: 8,
   },
 
   loginBtn: {

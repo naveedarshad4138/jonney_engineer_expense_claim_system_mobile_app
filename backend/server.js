@@ -28,6 +28,7 @@ app.use(basePath + '/api/auth', require('./routes/auth'));
 app.use(basePath + '/api/form', require('./routes/expenseClaimRoutes'));
 //////////// For upload file ///////////////////
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+console.log('Uploads path:', path.join(__dirname, 'uploads'));
 app.use('/api', require('./routes/uploadRoutes'));
 
 app.get(basePath + '/', (req, res) => {

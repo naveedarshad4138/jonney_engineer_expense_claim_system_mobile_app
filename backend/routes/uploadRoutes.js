@@ -7,7 +7,8 @@ const path = require('path');
 const fs = require('fs');
 
 router.post('/upload-file', upload.single('receipt'), (req, res) => {
-  if (!req.file) {
+  try {
+      if (!req.file) {
     return res.status(400).json({ message: 'No file uploaded' });
   }
 
@@ -15,6 +16,12 @@ router.post('/upload-file', upload.single('receipt'), (req, res) => {
     message: 'Upload successful',
     results: {fileUrl: `${req.file.filename}`},
   });
+  } catch (error) {
+    console.error('File upload error:', error);
+    return res.status(500).json({ message: 'File upload failed' });
+
+  }
+
 });
 //  DELETE uploaded file
 router.delete('/delete-file', (req, res) => {

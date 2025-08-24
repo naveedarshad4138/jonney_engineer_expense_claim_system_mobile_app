@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import useApi from '../hooks/useApi';
+import useApi from '../../hooks/useApi';
 
 const { width } = Dimensions.get('window');
 
@@ -205,6 +205,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#E5E7EB',
     color: '#000',
+    shadowColor: '#7C3AED',
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
+    elevation: 8,
   },
 
   passwordWrapper: {

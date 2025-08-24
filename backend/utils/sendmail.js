@@ -26,7 +26,7 @@ const transporter = nodemailer.createTransport({
 const sendEmail = async (to, subject, html) => {
   try {
     const info = await transporter.sendMail({
-      from: `"Steddy Funds " <${process.env.SMTP_USER}>`,
+      from: `"Claim Expense " <${process.env.SMTP_USER}>`,
       to,
       subject,
       html,
@@ -40,7 +40,10 @@ const sendEmail = async (to, subject, html) => {
 };
 const saveOtpGetLink = async (email, expiresInMinutes = 60) => {
   const user = await User.findOne({ email });
-  if (!user) throw new Error("This email is not registered.");
+   if (!user) {
+      return res.status(403).json({ message: 'This email is not registered.' });
+    }
+  // if (!user) throw new Error("This email is not registered.");
 
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   const otpExpires = Date.now() + expiresInMinutes * 60 * 1000;
@@ -49,13 +52,13 @@ const saveOtpGetLink = async (email, expiresInMinutes = 60) => {
   user.otpExpires = otpExpires;
   await user.save();
 
-  const token = jwt.sign(
-    { email: user.email, otp },
-    process.env.JWT_SECRET,
-    { expiresIn: `${expiresInMinutes}m` } // sets expiry in JWT as well
-  );
+  // const token = jwt.sign(
+  //   { email: user.email, otp },
+  //   process.env.JWT_SECRET,
+  //   { expiresIn: `${expiresInMinutes}m` } // sets expiry in JWT as well
+  // );
 
-  return token;
+  return otp;
 };
 
 

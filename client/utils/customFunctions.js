@@ -17,7 +17,7 @@ export const setToken = async (token, expiresIn) => {
   const expiresAt = Date.now() + expiresIn * 1000; // milliseconds
   const payload = JSON.stringify({ token, expiresAt });
   const encoded = encodeBase64(payload);
-  console.log("oktoekn",encoded)
+
   try {
     await AsyncStorage.setItem('authToken', encoded);
   } catch (e) {
@@ -38,7 +38,6 @@ export const removeToken = async () => {
 export const getToken = async () => {
   try {
     const encoded = await AsyncStorage.getItem('authToken');
-    console.log("getToken",encoded)
     if (!encoded) return null;
 
     const decoded = decodeBase64(encoded);
@@ -51,10 +50,10 @@ export const getToken = async () => {
       await removeToken();
       return null;
     }
-
+    console.log("getToken1",encoded)
     return encoded; // return the actual token (not encoded)
   } catch (e) {
-    console.error('Invalid token format or AsyncStorage error:', e);
+    console.log('Invalid token format or AsyncStorage error:', e);
     await removeToken();
     return null;
   }

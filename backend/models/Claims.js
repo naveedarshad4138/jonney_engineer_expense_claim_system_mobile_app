@@ -1,29 +1,49 @@
+// models/ExpenseClaim.js
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const expenseSchema = new mongoose.Schema({
+const JobExpenseSchema = new Schema({
   category: String,
-  jobs: [Number],
-  total: Number,
-  receiptUrl: String,
+  amount: String,
+  receiptUri: String,
+  noReceiptFlag: Boolean,
+  noReceiptReason: String,
 });
 
-const claimSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'User', // assuming you have a User model
-  },
-  fromDate: Date,
-  toDate: Date,
+const JobSchema = new Schema({
+  name: String,
+  expenses: [JobExpenseSchema],
+});
+
+const GeneralInfoSchema = new Schema({
+  fromDate: String,
+  toDate: String,
   name: String,
   approvedBy: String,
   notes: String,
-  expenses: [expenseSchema],
-  totalAmount: Number,
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
 });
 
-module.exports = mongoose.model('Claims', claimSchema);
+const TotalSchema = new Schema({
+  subtotal: Number,
+  jobTotals: [Number],
+  categoryTotals: [Number],
+});
+
+const ExpenseClaimSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'User', // If you have a User model
+  },
+  generalInfo: GeneralInfoSchema,
+  jobs: [JobSchema],
+  total: TotalSchema,
+  status: {
+    type: String,
+    enum: ['Pending', 'Approved', 'Rejected'],
+    default: 'Pending',
+  },
+  createdAt: { type: Date, default: Date.now },
+});
+
+module.exports = mongoose.model('Claims', ExpenseClaimSchema);

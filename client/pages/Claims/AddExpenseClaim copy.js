@@ -11,6 +11,9 @@ import {
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import useApi from '../hooks/useApi';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Platform } from 'react-native';
+
 
 const categories = [
     'Fuel', 'Post', 'Car Service', 'Travel', 'Materials', 'Software',
@@ -19,7 +22,9 @@ const categories = [
 ];
 
 export const AddExpenseClaim = () => {
-    const { postData, deleteData, loading } = useApi();
+  const { postData, deleteData, loading } = useApi();
+  const [showFromPicker, setShowFromPicker] = useState(false);
+const [showToPicker, setShowToPicker] = useState(false);
   const [formDetails, setFormDetails] = useState({
     fromDate: '',
     toDate: '',
@@ -94,7 +99,7 @@ export const AddExpenseClaim = () => {
             }
         }catch (err) {
         console.warn('Image pick/upload error:', err);
-        alert('File upload failed.');
+        alert('File upload failed. Try again');
         }
 
       }
@@ -138,18 +143,46 @@ export const AddExpenseClaim = () => {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>General Info</Text>
 
-      <TextInput
-        placeholder="From Date (YYYY-MM-DD)"
-        style={styles.input}
-        value={formDetails.fromDate}
-        onChangeText={(text) => setFormDetails({ ...formDetails, fromDate: text })}
-      />
-      <TextInput
-        placeholder="To Date (YYYY-MM-DD)"
-        style={styles.input}
-        value={formDetails.toDate}
-        onChangeText={(text) => setFormDetails({ ...formDetails, toDate: text })}
-      />
+      {/* FROM DATE */}
+<TouchableOpacity onPress={() => setShowFromPicker(true)} style={styles.input}>
+  <Text style={{ color: formDetails.fromDate ? '#000' : '#999' }}>
+    {formDetails.fromDate || 'Select From Date'}
+  </Text>
+</TouchableOpacity>
+{showFromPicker && (
+  <DateTimePicker
+    value={formDetails.fromDate ? new Date(formDetails.fromDate) : new Date()}
+    mode="date"
+    display="default"
+    onChange={(event, selectedDate) => {
+      setShowFromPicker(false);
+      if (selectedDate) {
+        setFormDetails({ ...formDetails, fromDate: selectedDate.toISOString().split('T')[0] });
+      }
+    }}
+  />
+)}
+
+{/* TO DATE */}
+<TouchableOpacity onPress={() => setShowToPicker(true)} style={styles.input}>
+  <Text style={{ color: formDetails.toDate ? '#000' : '#999' }}>
+    {formDetails.toDate || 'Select To Date'}
+  </Text>
+</TouchableOpacity>
+{showToPicker && (
+  <DateTimePicker
+    value={formDetails.toDate ? new Date(formDetails.toDate) : new Date()}
+    mode="date"
+    display="default"
+    onChange={(event, selectedDate) => {
+      setShowToPicker(false);
+      if (selectedDate) {
+        setFormDetails({ ...formDetails, toDate: selectedDate.toISOString().split('T')[0] });
+      }
+    }}
+  />
+)}
+
       <TextInput
         placeholder="Your Name"
         style={styles.input}
@@ -194,7 +227,7 @@ export const AddExpenseClaim = () => {
               }}
               style={styles.addJobBtn}
             >
-              <Text style={{ fontSize: 20 }}>＋</Text>
+              <Text style={{ fontSize: 16 }}>+</Text>
             </TouchableOpacity>
           </View>
 
@@ -243,10 +276,12 @@ export const AddExpenseClaim = () => {
       ))}
 
       <Text style={styles.totalText}>
-        Subtotal: £{expenses.reduce((sum, e) => sum + e.total, 0).toFixed(2)}
+        Total: £{expenses.reduce((sum, e) => sum + e.total, 0).toFixed(2)}
       </Text>
 
-      <Button title="Submit Claim" onPress={handleSubmit} />
+      <TouchableOpacity style={styles.sumbitButton} title="Submit Claim" onPress={handleSubmit} >
+        <Text style={{ color: '#fff', textAlign: 'center' }}>Submit Claim</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -254,12 +289,14 @@ export const AddExpenseClaim = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    marginTop: 30,
   },
   title: {
-    fontSize: 18,
+    fontSize: 26,
     fontWeight: 'bold',
-    marginTop: 10,
     marginBottom: 10,
+    textAlign: 'left',
+    color: '#333',
   },
   expenseBlock: {
     marginBottom: 25,
@@ -274,6 +311,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
+    
   },
   inputSmall: {
     borderWidth: 1,
@@ -283,12 +321,14 @@ const styles = StyleSheet.create({
     width: 80,
     borderRadius: 4,
   },
+  
   input: {
     borderWidth: 1,
     borderColor: '#aaa',
     padding: 10,
     marginVertical: 5,
     borderRadius: 5,
+    
   },
   uploadBtn: {
     marginTop: 8,
@@ -305,6 +345,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 4,
+    // display: 'flex',
     borderWidth: 1,
     borderColor: '#91c2b1',
   },
@@ -313,16 +354,25 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   removeImageBtn: {
-  position: 'absolute',
-  top: -10,
-  right: -10,
-  backgroundColor: '#e74c3c',
-  borderRadius: 10,
-  width: 20,
-  height: 20,
-  justifyContent: 'center',
-  alignItems: 'center',
-  zIndex: 10,
-},
+    position: 'absolute',
+    top: -10,
+    right: -10,
+    backgroundColor: '#e74c3c',
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  sumbitButton: {
+    marginBottom: 60,
+    backgroundColor: '#7C3AED',
+    color: '#fff',
+    padding: 10,
+    borderRadius: 5,
+    textAlign: 'center',
+  },
+
 
 });

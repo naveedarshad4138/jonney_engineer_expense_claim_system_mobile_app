@@ -85,7 +85,7 @@ const useApi = () => {
       showAlert(response.data?.message || successMessage, 'info');
       return response.data;
     } catch (err) {
-        console.log(err)
+      console.log(err)
       const msg = err.response?.data?.message || errorMessage;
       setError(msg);
       showAlert(msg, 'error');
@@ -100,11 +100,12 @@ const useApi = () => {
     try {
       const response = await apiClient.put(endpoint, updatedData);
       setData(response.data);
-      showAlert(successMessage, 'info');
+      showAlert(response.data?.message || successMessage, 'info');
       return response.data;
     } catch (err) {
       const msg = err.response?.data?.message || errorMessage;
       setError(msg);
+      console.log(err)
       showAlert(msg, 'error');
     } finally {
       setLoading(false);
