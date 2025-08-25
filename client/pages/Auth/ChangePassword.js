@@ -25,7 +25,7 @@ export const ChangePassword = () => {
     number: false,
   });
 
-  const { updateData, loading, status } = useApi();
+  const { updateData, loading } = useApi();
   const navigation = useNavigation();
 
   const isFormValid = () =>

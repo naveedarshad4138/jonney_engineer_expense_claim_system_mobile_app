@@ -292,11 +292,13 @@ console.log(jobs)
 
 return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
-      <Text style={styles.title}>General Info</Text>
+      <Text style={styles.title}>EMPLOYEE INFORMATION</Text>
 
       <TouchableOpacity onPress={() => setShowFromPicker(true)} style={mode=='view'?styles.disabled:styles.input}>
         <Text style={{ color: formDetails.fromDate ? '#000' : '#999' }}>
-          {formDetails.fromDate || 'Select From Date'}
+         {
+          mode=='view' && 'From date: '
+         } {formDetails.fromDate || 'Select From Date'}
         </Text>
       </TouchableOpacity>
       {showFromPicker && mode!=='view' && (
@@ -315,7 +317,10 @@ return (
 
       <TouchableOpacity onPress={() => setShowToPicker(true)} style={mode=='view'?styles.disabled:styles.input}>
         <Text style={{ color: formDetails.toDate ? '#000' : '#999' }}>
-          {formDetails.toDate || 'Select To Date'}
+          {
+            mode=='view' && 'To date: '
+          }
+            {formDetails.toDate || 'Select To Date'}
         </Text>
       </TouchableOpacity>
       {showToPicker && mode!=='view' && (
@@ -331,11 +336,10 @@ return (
           }}
         />
       )}
-
       <TextInput
         placeholder="Your Name"
         style={mode=='view'?styles.disabled:styles.input}
-        value={formDetails.name}
+        value={ mode=='view' && 'Name: '+formDetails.name}
         editable={mode !== 'view'}
         onChangeText={(text) => setFormDetails({ ...formDetails, name: text })}
       />
@@ -343,7 +347,7 @@ return (
       <TextInput
         placeholder="Approved By"
         style={mode=='view'?styles.disabled:styles.input}
-        value={formDetails.approvedBy}
+        value={mode=='view' && 'Approved by: '+formDetails.approvedBy}
         onChangeText={(text) => setFormDetails({ ...formDetails, approvedBy: text })}
         editable={mode !== 'view'}
       />
@@ -351,7 +355,7 @@ return (
       <TextInput
         placeholder="Notes"
         style={mode=='view'?styles.disabled:styles.input}
-        value={formDetails.notes}
+        value={mode=='view' && 'Note: '+formDetails.notes}
         editable={mode !== 'view'}
         onChangeText={(text) => setFormDetails({ ...formDetails, notes: text })}
       />

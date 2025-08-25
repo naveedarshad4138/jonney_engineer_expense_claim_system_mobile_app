@@ -15,7 +15,6 @@ import { ChangePassword } from './pages/Auth/ChangePassword';
 
 import { navigationRef, navigate } from './components/navigationRef'; // ✅ Import navigation ref and helper
 import { ResetPassword } from './pages/Auth/ResetPassword';
-import useApi from './hooks/useApi';
 
 const Stack = createNativeStackNavigator();
 
@@ -80,7 +79,7 @@ export default function App() {
 
   return (
     <>
-      <NavigationContainer ref={navigationRef}> {/* ✅ Attach ref */}
+      <NavigationContainer ref={navigationRef}>
         <Stack.Navigator initialRouteName={initialRoute} screenOptions={{ headerShown: false }}>
           <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
           <Stack.Screen name="ResetPassword" component={ResetPassword} />

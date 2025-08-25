@@ -10,6 +10,7 @@ import Toast from 'react-native-toast-message';
 const apiBaseUrl = Constants?.expoConfig?.extra?.apiBaseUrl || (
   Platform.OS === 'android' ? 'http://10.0.2.2:5000' : 'http://localhost:5000'
 );
+console.log('API Base URL:', apiBaseUrl);
 const useApi = () => {
   const [data, setData] = useState(null);
   const [status, setStatus] = useState(null);

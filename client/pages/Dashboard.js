@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { getToken, removeToken } from '../utils/customFunctions';
+import { removeToken } from '../utils/customFunctions';
 import { navigate, navigationRef } from '../components/navigationRef';
 import { CommonActions } from '@react-navigation/native';
 import useApi from '../hooks/useApi';
@@ -35,7 +35,7 @@ export const Dashboard = () => {
   // Inside component
 const isFocused = useIsFocused();
     const [user, setUser] = useState(null);
-    const { fetchData, loading, status } = useApi();
+    const { fetchData } = useApi();
       useEffect(() => {
         const checkToken = async () => {
           try {
