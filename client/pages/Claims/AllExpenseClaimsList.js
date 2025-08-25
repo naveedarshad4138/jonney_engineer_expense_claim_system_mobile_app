@@ -77,9 +77,9 @@ export const AllExpenseClaimsList = () => {
   });
 }}
             
-            style={[styles.viewBtn]}
+            style={styles.viewBtn}
           >
-            <Text style={{ color: 'red', fontWeight: 'bold' }}>View Details</Text>
+            <Text style={{ color: '#fff', fontWeight: 'bold' }}>View Details</Text>
           </TouchableOpacity>
         </View>
       ))
@@ -210,17 +210,20 @@ const styles = StyleSheet.create({
     color: '#7C3AED',
     fontSize: 15,
   },
-});
-
-// Status badge colors
-const statusStyles = StyleSheet.create({
   viewBtn: {
   backgroundColor: '#7C3AED',
   paddingVertical: 10,
+  paddingHorizontal: 15,
+  marginTop: 15,
   borderRadius: 6,
   alignItems: 'center',
 },
 
+});
+
+// Status badge colors
+const statusStyles = StyleSheet.create({
+  
   pending: {
     backgroundColor: '#f39c12', // orange
   },

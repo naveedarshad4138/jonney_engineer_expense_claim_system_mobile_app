@@ -1,37 +1,16 @@
 const Claims = require('../models/Claims');
 
 // POST: Create a new expense claim
-const User = require('../models/User');  // Make sure you require the User model
-
 exports.createExpenseClaim = async (req, res) => {
-  try {
-    const userId = req.user.id;
+
+     try {
+    const userId = req.user.id; // extracted from token by middleware
     const { generalInfo, jobs, total } = req.body;
 
     if (!userId) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    // Fetch user to access float values
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    const claimTotal = parseFloat(total?.subtotal || 0);
-
-    // Check if user has enough float
-    if (user.currentFloat < claimTotal) {
-      return res.status(400).json({
-        message: `Insufficient float. Available: £${user.currentFloat.toFixed(2)}, Required: £${claimTotal.toFixed(2)}.`,
-      });
-    }
-
-    // Deduct claim amount from currentFloat
-    user.currentFloat -= claimTotal;
-    await user.save();
-
-    // Create the claim
     const claim = new Claims({
       userId,
       generalInfo,
@@ -41,16 +20,13 @@ exports.createExpenseClaim = async (req, res) => {
 
     await claim.save();
 
-    res.status(201).json({
-      message: 'Expense claim submitted & float deducted.',
-      results: claim,
-      updatedFloat: user.currentFloat,
-    });
-
+    res.status(201).json({ message: "Expense claim created successfully", results: claim });
   } catch (error) {
-    console.error('Claim submission error:', error);
-    res.status(500).json({ error: 'Failed to submit claim' });
+    console.error(error);
+    res.status(500).json({ error: "Failed to create expense claim" });
   }
+
+
 };
 
 

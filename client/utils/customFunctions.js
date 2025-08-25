@@ -43,7 +43,7 @@ export const getToken = async () => {
     const decoded = decodeBase64(encoded);
     const { token, expiresAt } = JSON.parse(decoded);
     const currentTime = Date.now();
-    const oneHour = 60 * 60 * 1000; // milliseconds
+    const oneHour = 2880 * 60 * 1000; // milliseconds
 
     // Check if token expired more than 1 hour ago
     if (currentTime - expiresAt > oneHour) {

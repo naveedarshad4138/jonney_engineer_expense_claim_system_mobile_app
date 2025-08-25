@@ -7,7 +7,7 @@ import Constants from 'expo-constants';
 import { getToken, setToken, removeToken } from '../utils/customFunctions';
 import Toast from 'react-native-toast-message';
 
-const apiBaseUrl = Constants.expoConfig?.extra?.apiBaseUrl || (
+const apiBaseUrl = Constants?.expoConfig?.extra?.apiBaseUrl || (
   Platform.OS === 'android' ? 'http://10.0.2.2:5000' : 'http://localhost:5000'
 );
 const useApi = () => {

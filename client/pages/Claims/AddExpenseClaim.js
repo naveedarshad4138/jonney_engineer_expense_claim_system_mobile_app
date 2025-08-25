@@ -12,6 +12,7 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import useApi from '../../hooks/useApi';
+import Constants from 'expo-constants';
 
 const expenseCategories = [
   'Fuel',
@@ -30,7 +31,7 @@ const expenseCategories = [
 ];
 
 export const AddExpenseClaim = ({ route }) => {
-  const apiBaseUrl = Constants.expoConfig?.extra?.apiBaseUrl;
+  const apiBaseUrl = Constants?.expoConfig?.extra?.apiBaseUrl;
   const { mode, claimData } = route.params || {};
   const {postData, deleteData} = useApi();
   const [jobs, setJobs] = useState([{ name: '' }]);
@@ -42,7 +43,6 @@ export const AddExpenseClaim = ({ route }) => {
     notes: '',
   });
   
-  console.log(claimData)
   const [showFromPicker, setShowFromPicker] = useState(false);
   const [showToPicker, setShowToPicker] = useState(false);
 
@@ -72,9 +72,9 @@ export const AddExpenseClaim = ({ route }) => {
     const newJobs = jobs.filter((_, i) => i !== jobIndex);
     const newExpenses = expenses.map((categoryJobs) =>
       categoryJobs.filter((_, i) => i !== jobIndex)
-    );
-    setJobs(newJobs);
-    setExpenses(newExpenses);
+  );
+  setJobs(newJobs);
+  setExpenses(newExpenses);
   };
 
   // Update job name
@@ -83,7 +83,7 @@ export const AddExpenseClaim = ({ route }) => {
     newJobs[index].name = value;
     setJobs(newJobs);
   };
-
+  
   // Update amount
   const updateAmount = (catIndex, jobIndex, value) => {
     const newExpenses = [...expenses];
@@ -104,16 +104,20 @@ export const AddExpenseClaim = ({ route }) => {
     }
     setExpenses(newExpenses);
   };
-
+  
   // Toggle between showing reason input and attachment button
   const toggleReasonInput = (catIndex, jobIndex) => {
     const newExpenses = [...expenses];
     const jobData = newExpenses[catIndex][jobIndex];
     jobData.showReasonInput = !jobData.showReasonInput;
-    if (jobData.showReasonInput) {
+    if (jobData.showReasonInput!=='') {
       // If showing reason input, clear receipt
       jobData.receiptUri = null;
     }
+    // if(jobData.receiptUri!=='') {
+    //   jobData.noReceiptReason = '';
+    //   jobData.showReasonInput = false;
+    // }
     setExpenses(newExpenses);
   };
 
@@ -171,11 +175,11 @@ export const AddExpenseClaim = ({ route }) => {
     }
   }
   };
-
+  
 
   // Remove attached receipt
   const removeReceipt = async (catIndex, jobIndex) => {
-  const jobData = expenses[catIndex][jobIndex];
+    const jobData = expenses[catIndex][jobIndex];
 
   if (jobData.receiptUrl) {
     try {
@@ -193,8 +197,8 @@ export const AddExpenseClaim = ({ route }) => {
 };
 
 
-  // Calculate totals
-  const jobTotals = jobs.map((_, jobIndex) => {
+// Calculate totals
+const jobTotals = jobs.map((_, jobIndex) => {
     let total = 0;
     expenses.forEach((catJobs) => {
       const val = parseFloat(catJobs[jobIndex]?.amount) || 0;
@@ -202,22 +206,22 @@ export const AddExpenseClaim = ({ route }) => {
     });
     return total;
   });
-
+  
   const categoryTotals = expenses.map((catJobs) => {
     return catJobs.reduce((sum, jobData) => sum + (parseFloat(jobData.amount) || 0), 0);
   });
-
+  
   const subtotal = categoryTotals.reduce((a, b) => a + b, 0);
-
+  
   // Submit form validation
   const onSubmit = () => {
     // for (let c = 0; c < expenses.length; c++) {
     //   for (let j = 0; j < jobs.length; j++) {
     //     const jobData = expenses[c][j];
     //     if (jobData.receiptUri=='') {
-    //       Alert.alert(
-    //         'Validation Error',
-    //         `Please provide reason for no receipt in "${expenseCategories[c]}", Job ${j + 1}`
+      //       Alert.alert(
+        //         'Validation Error',
+        //         `Please provide reason for no receipt in "${expenseCategories[c]}", Job ${j + 1}`
     //       );
     //       return;
     //     }
@@ -255,40 +259,47 @@ useEffect(() => {
       fromDate: claimData?.generalInfo?.fromDate || '',
       toDate: claimData?.generalInfo?.toDate || '',
       name: claimData?.generalInfo?.name || '',
-      approvedBy: claimData?.generalInfo?.approvedBy || '',
-      notes: claimData?.generalInfo?.notes || '',
-    });
+    approvedBy: claimData?.generalInfo?.approvedBy || '',
+    notes: claimData?.generalInfo?.notes || '',
+  });
 
-    const jobNames = claimData.jobs?.map(j => ({ name: j.name })) || [{ name: '' }];
-    setJobs(jobNames);
+  const jobNames = claimData.jobs?.map(j => ({ name: j.name })) || [{ name: '' }];
+  setJobs(jobNames);
 
-    const newExpenses = expenseCategories.map((cat, cIdx) => {
-      return claimData.jobs?.map(job => {
-        const expense = job.expenses?.find(e => e.category === cat);
-        return {
-          amount: expense?.amount?.toString() || '',
-          receiptUri: apiBaseUrl+'/uploads/'+expense?.receiptUrl || null,
-          receiptUrl: eapiBaseUrl+'/uploads/'+expense?.receiptUrl || null,
-          noReceiptFlag: expense?.noReceiptFlag || false,
-          noReceiptReason: expense?.noReceiptReason || '',
-          showReasonInput: !!expense?.noReceiptFlag && !apiBaseUrl+'/uploads/'+expense?.receiptUrl,
-        };
-      }) || [{ amount: '', receiptUri: null, receiptUrl: null, noReceiptFlag: false, noReceiptReason: '', showReasonInput: false }];
-    });
-    setExpenses(newExpenses);
-  }
+  const newExpenses = expenseCategories.map((cat, cIdx) => {
+    return claimData.jobs?.map(job => {
+      const expense = job.expenses?.find(e => e.category === cat);
+
+      const hasReceipt = !!expense?.receiptUri;
+      const receiptUrl = hasReceipt ? `${apiBaseUrl}uploads/${expense.receiptUri}` : null;
+      
+      return {
+        amount: expense?.amount?.toString() || '',
+        receiptUri: receiptUrl,
+        receiptUrl: receiptUrl,
+        noReceiptFlag: !!expense?.noReceiptFlag,
+        noReceiptReason: expense?.noReceiptReason || '',
+        showReasonInput: !!expense?.noReceiptFlag && !hasReceipt,
+      };
+    }) || [{ amount: '', receiptUri: null, receiptUrl: null, noReceiptFlag: false, noReceiptReason: '', showReasonInput: false }];
+  });
+
+  setExpenses(newExpenses);
+}
+
 }, [claimData]);
+console.log(jobs)
 
-  return (
+return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
       <Text style={styles.title}>General Info</Text>
 
-      <TouchableOpacity onPress={() => setShowFromPicker(true)} style={styles.input}>
+      <TouchableOpacity onPress={() => setShowFromPicker(true)} style={mode=='view'?styles.disabled:styles.input}>
         <Text style={{ color: formDetails.fromDate ? '#000' : '#999' }}>
           {formDetails.fromDate || 'Select From Date'}
         </Text>
       </TouchableOpacity>
-      {showFromPicker && (
+      {showFromPicker && mode!=='view' && (
         <DateTimePicker
           value={formDetails.fromDate ? new Date(formDetails.fromDate) : new Date()}
           mode="date"
@@ -302,12 +313,12 @@ useEffect(() => {
         />
       )}
 
-      <TouchableOpacity onPress={() => setShowToPicker(true)} style={styles.input}>
+      <TouchableOpacity onPress={() => setShowToPicker(true)} style={mode=='view'?styles.disabled:styles.input}>
         <Text style={{ color: formDetails.toDate ? '#000' : '#999' }}>
           {formDetails.toDate || 'Select To Date'}
         </Text>
       </TouchableOpacity>
-      {showToPicker && (
+      {showToPicker && mode!=='view' && (
         <DateTimePicker
           value={formDetails.toDate ? new Date(formDetails.toDate) : new Date()}
           mode="date"
@@ -323,22 +334,25 @@ useEffect(() => {
 
       <TextInput
         placeholder="Your Name"
-        style={styles.input}
+        style={mode=='view'?styles.disabled:styles.input}
         value={formDetails.name}
+        editable={mode !== 'view'}
         onChangeText={(text) => setFormDetails({ ...formDetails, name: text })}
       />
 
       <TextInput
         placeholder="Approved By"
-        style={styles.input}
+        style={mode=='view'?styles.disabled:styles.input}
         value={formDetails.approvedBy}
         onChangeText={(text) => setFormDetails({ ...formDetails, approvedBy: text })}
+        editable={mode !== 'view'}
       />
 
       <TextInput
         placeholder="Notes"
-        style={styles.input}
+        style={mode=='view'?styles.disabled:styles.input}
         value={formDetails.notes}
+        editable={mode !== 'view'}
         onChangeText={(text) => setFormDetails({ ...formDetails, notes: text })}
       />
 
@@ -348,9 +362,8 @@ useEffect(() => {
           <Text style={{ color: '#fff', fontWeight: 'bold' }}>+ Add Job</Text>
         </TouchableOpacity>
       )}
-      <ScrollView horizontal style={{ paddingX: 5 }}>
+      <ScrollView horizontal style={{ paddingX: 5, marginBottom: 40 }}>
         <View>
-
           {/* Header Row */}
           <View style={styles.headerRow}>
             <View style={[styles.labelCell, { backgroundColor: '#e0e0e0' }]}>
@@ -360,16 +373,22 @@ useEffect(() => {
               <View key={idx} style={[styles.headerCell, { flexDirection: 'row', alignItems: 'center' }]}>
                 <TextInput
                   placeholder={`Job ${idx + 1}`}
-                  style={[styles.jobInput, { flex: 1 }]}
+                  style={[mode=='view'?styles.disabled:styles.jobInput, { flex: 1 }]}
                   value={job.name}
+                  editable={mode !== 'view'}
                   onChangeText={(text) => updateJobName(idx, text)}
                 />
+                {
+                  mode !== 'view' && (
                 <TouchableOpacity
                   onPress={() => removeJob(idx)}
                   style={styles.removeJobBtn}
                 >
                   <Text style={{ color: 'white', fontWeight: 'bold' }}>×</Text>
                 </TouchableOpacity>
+                  )
+                }
+               
               </View>
             ))}
             <View style={[styles.totalCell, { backgroundColor: '#e0e0e0' }]}>
@@ -399,53 +418,81 @@ useEffect(() => {
                     <TextInput
                       placeholder="£0.00"
                       keyboardType="numeric"
-                      style={styles.amountInput}
+                      style={mode=='view'?styles.disabled: styles.amountInput}
                       value={jobData.amount}
+                      editable={mode !== 'view'}
                       onChangeText={(text) => updateAmount(catIndex, jobIndex, text)}
                     />
+{mode === 'view' ? (
+  <>
+    {jobData.receiptUri && (
+      <View style={{ marginTop: 6 }}>
+        <Image
+          source={{ uri: jobData.receiptUri }}
+          style={styles.imagePreview}
+        />
+        {/* <Text>{jobData.receiptUri}</Text> */}
+      </View>
+    )}
 
-                    {!jobData.showReasonInput ? (
-                      <>
-                        <TouchableOpacity onPress={() => pickReceipt(catIndex, jobIndex)} style={styles.uploadBtn}>
-                          <Text style={{ fontSize: 14 }}>
-                            {jobData.receiptUri ? '📎 Attached' : 'Attach'}
-                          </Text>
-                        </TouchableOpacity>
+    {jobData.noReceiptReason && (
+      <View style={{ marginTop: 6 }}>
+        <Text style={{ color: '#d9534f', fontStyle: 'italic' }}>
+          Reason: {jobData.noReceiptReason}
+        </Text>
+      </View>
+    )}
+  </>
+) : (
+  <>
+    {!jobData.showReasonInput ? (
+      <>
+        <TouchableOpacity
+          onPress={() => pickReceipt(catIndex, jobIndex)}
+          style={styles.uploadBtn}
+        >
+          <Text style={{ fontSize: 14 }}>
+            {jobData.receiptUri ? '📎 Attached' : 'Attach'}
+          </Text>
+        </TouchableOpacity>
 
-                        {jobData.receiptUri && (
-                          <View style={{ marginTop: 6, position: 'relative' }}>
-                            <Image
-                              source={{ uri: jobData.receiptUri }}
-                              style={styles.imagePreview}
-                            />
-                            <TouchableOpacity
-                              onPress={() => removeReceipt(catIndex, jobIndex)}
-                              style={styles.removeImageBtn}
-                            >
-                              <Text style={{ color: 'white', fontWeight: 'bold' }}>×</Text>
-                            </TouchableOpacity>
-                          </View>
-                        )}
-                      </>
-                    ) : (
-                      <TextInput
-                        placeholder="Reason for no attachment"
-                        style={[styles.reasonInput, { marginTop: 6 }]}
-                        value={jobData.noReceiptReason}
-                        onChangeText={(text) =>
-                          updateNoReceiptReason(catIndex, jobIndex, text)
-                        }
-                      />
-                    )}
+        {jobData.receiptUri && (
+          <View style={{ marginTop: 6, position: 'relative' }}>
+            <Image
+              source={{ uri: jobData.receiptUri }}
+              style={styles.imagePreview}
+            />
+            <TouchableOpacity
+              onPress={() => removeReceipt(catIndex, jobIndex)}
+              style={styles.removeImageBtn}
+            >
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>×</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </>
+    ) : (
+      <TextInput
+        placeholder="Reason for no attachment"
+        style={[styles.reasonInput, { marginTop: 6 }]}
+        value={jobData.noReceiptReason}
+        onChangeText={(text) =>
+          updateNoReceiptReason(catIndex, jobIndex, text)
+        }
+      />
+    )}
 
-                    <TouchableOpacity
-                      onPress={() => toggleReasonInput(catIndex, jobIndex)}
-                      style={styles.toggleReasonBtn}
-                    >
-                      <Text style={{ fontSize: 10, color: 'blue' }}>
-                        {jobData.showReasonInput ? 'Use Attachment' : 'Use Reason'}
-                      </Text>
-                    </TouchableOpacity>
+    {!jobData.receiptUri && (<TouchableOpacity
+      onPress={() => toggleReasonInput(catIndex, jobIndex)}
+      style={styles.toggleReasonBtn}
+    >
+      <Text style={{ fontSize: 10, color: 'blue' }}>
+        {jobData.showReasonInput ? 'Use Attachment' : 'Use Reason'}
+      </Text>
+    </TouchableOpacity>)}
+  </>
+)}
+
                   </View>
                 );
               })}
@@ -514,7 +561,13 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 8,
     fontSize: 14,
-
+  },
+  disabled:{
+    border:'none',
+    minWidth: 90,
+    paddingHorizontal: 6,
+    justifyContent: 'center',
+    backgroundColor: '#f0f0f0',
   },
   uploadBtn: {
     marginTop: 6,
@@ -558,8 +611,8 @@ const styles = StyleSheet.create({
   },
   removeImageBtn: {
     position: 'absolute',
-    top: -6,
-    right: -6,
+    top: -4,
+    right: 35,
     backgroundColor: 'rgba(255,0,0,0.9)',
     borderRadius: 12,
     width: 24,

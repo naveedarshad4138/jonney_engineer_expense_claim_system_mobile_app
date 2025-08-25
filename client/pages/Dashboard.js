@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -13,6 +13,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getToken, removeToken } from '../utils/customFunctions';
 import { navigate, navigationRef } from '../components/navigationRef';
 import { CommonActions } from '@react-navigation/native';
+import useApi from '../hooks/useApi';
+import { useIsFocused } from '@react-navigation/native';
+
 
 const { width } = Dimensions.get('window');
 const ITEM_WIDTH = (width - 60) / 2; // two columns with margin
@@ -28,41 +31,27 @@ const dashboardItems = [
   { id: '6', title: 'Logout', icon: 'logout', screen: 'Logout' },
 ];
 
-export const Dashboard = ({ user, setInitialRoute }) => {
-
-      // useEffect(() => {
-      //   const checkToken = async () => {
-      //     try {
-      //       const gToken = await getToken();
-      //       if (gToken) {
-      //         let decoded = JSON.parse(decodeBase64(gToken));
-      //         decoded = jwtDecode(decoded?.token);
-      //         const payload = decoded?.user;
-    
-      //         if (payload) {
-      //           setUserData({
-      //             username: payload.username || '',
-      //             role: payload.role || '',
-      //           });
-               
-      //           navigate('Dashboard'); // ✅ Navigate to Dashboard
-      //         } else {
-                
-      //           navigate('Login'); // fallback
-      //         }
-      //       } else {
-          
-      //         navigate('Login');
-      //       }
-      //     } catch (err) {
-      //       console.log('Token check error:', err);
+export const Dashboard = () => {
+  // Inside component
+const isFocused = useIsFocused();
+    const [user, setUser] = useState(null);
+    const { fetchData, loading, status } = useApi();
+      useEffect(() => {
+        const checkToken = async () => {
+          try {
+            const user = await fetchData('auth/user');
+            setUser(user?.results || null);
+            console.log(user?.results)
             
-      //       navigate('Login');
-      //     }
-      //   };
+          } catch (err) {
+            console.log(err)
+            console.log('Session expired! Please log in again.');
+            // navigate('Login');
+          }
+        };
     
-      //   checkToken();
-      // }, []);
+        checkToken();
+      }, [isFocused]);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -108,6 +97,7 @@ export const Dashboard = ({ user, setInitialRoute }) => {
       <View style={styles.header}>
         <View>
           <Text style={styles.greeting}>Welcome back{user ? `, ${user.username}` : ''}!</Text>
+          <Text>Current Balance: <Text style={{ fontWeight: 'bold' }}>{user?.currentFloat}</Text></Text>
           <Text style={styles.subGreeting}>Here's your dashboard</Text>
         </View>
         {/* <Image

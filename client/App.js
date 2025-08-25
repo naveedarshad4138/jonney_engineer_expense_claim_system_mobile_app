@@ -15,6 +15,7 @@ import { ChangePassword } from './pages/Auth/ChangePassword';
 
 import { navigationRef, navigate } from './components/navigationRef'; // ✅ Import navigation ref and helper
 import { ResetPassword } from './pages/Auth/ResetPassword';
+import useApi from './hooks/useApi';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,10 +33,8 @@ export default function App() {
           const payload = decoded?.user;
 
           if (payload) {
-            setUserData({
-              username: payload.username || '',
-              role: payload.role || '',
-            });
+            console.log(payload)
+            setUserData(payload);
             setInitialRoute('Dashboard');
             navigate('Dashboard'); // ✅ Navigate to Dashboard
           } else {
@@ -55,6 +54,27 @@ export default function App() {
 
     checkToken();
   }, []);
+
+      // const { fetchData, loading, status } = useApi();
+      //   useEffect(() => {
+      //     const checkToken = async () => {
+      //       try {
+      //         const user = await fetchData('auth/user');
+      //         setUserData(user?.results || null);
+      //          setInitialRoute('Dashboard');
+      //         navigate('Dashboard'); // ✅ Navigate to Dashboard
+              
+      //       } catch (err) {
+      //         console.log(err)
+      //         console.log('Session expired! Please log in again.');
+      //         // navigate('Login');
+      //         setInitialRoute('Login');
+      //         navigate('Login'); // ✅ Navigate to Dashboard
+      //       }
+      //     };
+      
+      //     checkToken();
+      //   }, []);
 
   if (!initialRoute) return null;
 

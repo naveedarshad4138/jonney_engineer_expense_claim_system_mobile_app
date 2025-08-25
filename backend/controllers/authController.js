@@ -86,8 +86,8 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: ' Incorrect password. Please try again.' });
     }
 
-    const payload = { user: { id: user.id, role:user?.role, username: user?.username } };
-    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
+    const payload = { user: { id: user.id, role:user?.role, username: user?.username,currentFloat: user?.currentFloat } };
+    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '48h' }, (err, token) => {
       if (err) throw err;
       res.status(200).json({status:'200',token,expiresIn:'3600',results:[]  });
     });

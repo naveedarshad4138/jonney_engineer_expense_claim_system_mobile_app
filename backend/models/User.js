@@ -10,6 +10,9 @@ const userSchema = new mongoose.Schema({
     enum: ['User', 'Admin'],
     default: 'User', // default role
   },
+  // ✅ Add these:
+  floatLimit: { type: Number, default: 1000 },     // starting limit
+  currentFloat: { type: Number, default: 1000 },   // mutable
   otp: { type: String, default: null },
   otpExpires: { type: Date, default: null },
 });

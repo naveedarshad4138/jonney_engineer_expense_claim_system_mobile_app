@@ -117,7 +117,7 @@ export const Login = ({ setUserData }) => {
                                 autoCapitalize="none"
                                 value={password}
                                 onChangeText={setPassword}
-                                editable={!loading} Steddy
+                                editable={!loading}
                             />
                             <TouchableOpacity onPress={togglePasswordVisibility} style={styles.passwordToggle}>
                                 <Text style={{ fontSize: 18 }}>{showPassword ? '🙈' : '👁️'}</Text>
@@ -224,9 +224,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 15,
         fontSize: 16,
-        // borderWidth: 2,
+        borderWidth: 0,
         // borderColor: '#E5E7EB',
-        border: 'none',
+        // border: 'none',
         color: '#000',
         shadowColor: '#7C3AED',
         shadowOpacity: 0.2,
