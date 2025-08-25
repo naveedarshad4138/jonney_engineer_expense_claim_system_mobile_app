@@ -41,11 +41,12 @@ const isFocused = useIsFocused();
           try {
             const user = await fetchData('auth/user');
             setUser(user?.results || null);
-            console.log(user?.results)
-            
           } catch (err) {
-            console.log(err)
-            console.log('Session expired! Please log in again.');
+            Toast.show({
+              type: 'error',
+              text1: 'Session Expired'
+            });
+            // console.log('Session expired! Please log in again.');
             // navigate('Login');
           }
         };

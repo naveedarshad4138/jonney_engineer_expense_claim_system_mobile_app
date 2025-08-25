@@ -15,7 +15,6 @@ export const AllExpenseClaimsList = () => {
   const navigation = useNavigation();
   const { fetchData, loading } = useApi();
   const [claims, setClaims] = useState([]);
-  console.log(claims)
   const [selectedClaim, setSelectedClaim] = useState(null);
 
   const fetchClaims = async () => {

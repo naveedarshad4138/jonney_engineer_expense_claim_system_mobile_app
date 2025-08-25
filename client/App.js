@@ -32,7 +32,6 @@ export default function App() {
           const payload = decoded?.user;
 
           if (payload) {
-            console.log(payload)
             setUserData(payload);
             setInitialRoute('Dashboard');
             navigate('Dashboard'); // ✅ Navigate to Dashboard
@@ -45,7 +44,10 @@ export default function App() {
           navigate('Login');
         }
       } catch (err) {
-        console.log('Token check error:', err);
+        Toast.show({
+          type: 'error',
+          text1: 'Session Expired'
+        });
         setInitialRoute('Login');
         navigate('Login');
       }

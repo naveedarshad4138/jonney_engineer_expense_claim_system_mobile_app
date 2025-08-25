@@ -288,7 +288,6 @@ useEffect(() => {
 }
 
 }, [claimData]);
-console.log(jobs)
 
 return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
