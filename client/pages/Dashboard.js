@@ -98,7 +98,7 @@ const isFocused = useIsFocused();
       <View style={styles.header}>
         <View>
           <Text style={styles.greeting}>Welcome back{user ? `, ${user.username}` : ''}!</Text>
-          <Text>Current Balance: <Text style={{ fontWeight: 'bold' }}>{user?.currentFloat}</Text></Text>
+          <Text>Current Balance: <Text style={{ fontWeight: 'bold' }}>£ {user?.currentFloat}</Text></Text>
           <Text style={styles.subGreeting}>Here's your dashboard</Text>
         </View>
         {/* <Image

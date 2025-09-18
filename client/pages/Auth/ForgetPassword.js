@@ -25,16 +25,16 @@ export const ForgetPassword = () => {
       return;
     }
     try {
-      // let results = await postData(
-      // 'auth/send-otp',
-      // { email },
-      // 'OTP sent successfully!',
-      // 'Failed to send OTP!'
-      // );
-      // console.log(results);
-      // if (results?.status == 200) {
+      let results = await postData(
+      'auth/send-otp',
+      { email },
+      'OTP sent successfully!',
+      'Failed to send OTP!'
+      );
+      console.log(results);
+      if (results?.status == 200) {
         navigate('ResetPassword', { email }); // Navigate to ResetPassword with email
-      // }
+      }
 
     } catch (error) {
       Toast.show({

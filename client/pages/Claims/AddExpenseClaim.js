@@ -28,6 +28,7 @@ const expenseCategories = [
   'SM8',
   'Entertaining',
   'Training Fees',
+  'Others',
 ];
 
 export const AddExpenseClaim = ({ route }) => {
