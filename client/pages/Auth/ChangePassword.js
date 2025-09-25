@@ -67,6 +67,7 @@ export const ChangePassword = () => {
         <Text style={styles.label}>Current Password</Text>
         <View style={styles.inputWrapper}>
           <TextInput
+          placeholderTextColor="#999"
             style={styles.input}
             value={crpassword}
             onChangeText={setCrPassword}
@@ -83,6 +84,7 @@ export const ChangePassword = () => {
         <Text style={styles.label}>New Password</Text>
         <View style={styles.inputWrapper}>
           <TextInput
+          placeholderTextColor="#999"
             style={styles.input}
             value={password}
             onChangeText={setPassword}
@@ -106,6 +108,7 @@ export const ChangePassword = () => {
         <Text style={styles.label}>Confirm New Password</Text>
         <View style={styles.inputWrapper}>
           <TextInput
+          placeholderTextColor="#999"
             style={styles.input}
             value={cpassword}
             onChangeText={setCPassword}
@@ -176,6 +179,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 45,
+    color: '#000',
    
   },
   toggle: {

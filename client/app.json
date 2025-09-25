@@ -13,7 +13,12 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "bundleIdentifier": "com.yourcompany.myapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,9 +32,10 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "eas": {
-        "projectId": "96bbbbc4-07b6-42c4-902b-fb1d886c72e8"
-      }
-    }
+  "eas": {
+    "projectId": "419cc52e-6956-4f48-bbc4-4be906554095"
+  }
+}
+
   }
 }

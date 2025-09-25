@@ -338,6 +338,7 @@ return (
       )}
       <TextInput
         placeholder="Your Name"
+        placeholderTextColor="#999"
         style={mode=='view'?styles.disabled:styles.input}
         value={ mode=='view' && 'Name: '+formDetails.name}
         editable={mode !== 'view'}
@@ -346,6 +347,7 @@ return (
 
       <TextInput
         placeholder="Approved By"
+        placeholderTextColor="#999"
         style={mode=='view'?styles.disabled:styles.input}
         value={mode=='view' && 'Approved by: '+formDetails.approvedBy}
         onChangeText={(text) => setFormDetails({ ...formDetails, approvedBy: text })}
@@ -354,6 +356,7 @@ return (
 
       <TextInput
         placeholder="Notes"
+        placeholderTextColor="#999"
         style={mode=='view'?styles.disabled:styles.input}
         value={mode=='view' && 'Note: '+formDetails.notes}
         editable={mode !== 'view'}
@@ -376,6 +379,7 @@ return (
             {jobs.map((job, idx) => (
               <View key={idx} style={[styles.headerCell, { flexDirection: 'row', alignItems: 'center' }]}>
                 <TextInput
+                  placeholderTextColor="#999"
                   placeholder={`Job ${idx + 1}`}
                   style={[mode=='view'?styles.disabled:styles.jobInput, { flex: 1 }]}
                   value={job.name}
@@ -420,6 +424,7 @@ return (
                 return (
                   <View key={jobIndex} style={styles.amountCell}>
                     <TextInput
+                      placeholderTextColor="#999"
                       placeholder="£0.00"
                       keyboardType="numeric"
                       style={mode=='view'?styles.disabled: styles.amountInput}
@@ -477,6 +482,7 @@ return (
       </>
     ) : (
       <TextInput
+        placeholderTextColor="#999"
         placeholder="Reason for no attachment"
         style={[styles.reasonInput, { marginTop: 6 }]}
         value={jobData.noReceiptReason}
@@ -694,6 +700,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingHorizontal: 10,
     marginBottom: 10,
+    color: '#000',
   },
 
   title: {

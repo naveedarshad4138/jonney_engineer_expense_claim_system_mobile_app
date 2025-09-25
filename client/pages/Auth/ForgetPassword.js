@@ -14,7 +14,7 @@ import { navigate } from '../../components/navigationRef';
 
 export const ForgetPassword = () => {
   const [email, setEmail] = useState('');
-  const { loading } = useApi();
+  const { postData,loading } = useApi();
 
   const handleSendOtp = async () => {
     if (!email) {
