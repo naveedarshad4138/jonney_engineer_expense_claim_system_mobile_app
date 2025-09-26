@@ -13,7 +13,7 @@ export default {
       edgeToEdgeEnabled: true
     },
     ios: {
-      bundleIdentifier: "com.yourcompany.myapp", // ✅ REQUIRED
+      bundleIdentifier: "com.abml.expense", // ✅ REQUIRED
       adaptiveIcon: {
         foregroundImage: "https://thumbs.dreamstime.com/b/black-mix-icon-claims-money-insurance-requirement-miscellaneous-logo-157708423.jpg",
         backgroundColor: "#ffffff"
