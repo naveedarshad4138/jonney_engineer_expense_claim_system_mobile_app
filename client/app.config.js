@@ -2,12 +2,12 @@ import 'dotenv/config';
 
 export default {
   expo: {
-    name: "Claims Expense System",
+    name: "Abml expenses",
     slug: "claims-expense-system",
     android: {
       package: "com.naveed_arshad.jonneyapp", // ✅ REQUIRED
       adaptiveIcon: {
-        foregroundImage: "https://thumbs.dreamstime.com/b/black-mix-icon-claims-money-insurance-requirement-miscellaneous-logo-157708423.jpg",
+        foregroundImage: "https://advancedbml.engineering/api/uploads/logo.png",
         backgroundColor: "#ffffff"
       },
       edgeToEdgeEnabled: true
@@ -15,7 +15,7 @@ export default {
     ios: {
       bundleIdentifier: "com.abml.expense", // ✅ REQUIRED
       adaptiveIcon: {
-        foregroundImage: "https://thumbs.dreamstime.com/b/black-mix-icon-claims-money-insurance-requirement-miscellaneous-logo-157708423.jpg",
+        foregroundImage: "https://advancedbml.engineering/api/uploads/logo.png",
         backgroundColor: "#ffffff"
       },
       edgeToEdgeEnabled: true

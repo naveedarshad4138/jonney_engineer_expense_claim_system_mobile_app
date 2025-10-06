@@ -57,6 +57,7 @@ export const ForgetPassword = () => {
           <Text style={styles.label}>Email Address</Text>
           <TextInput
             style={styles.input}
+            placeholderTextColor="#888"
             placeholder="Enter your business email"
             keyboardType="email-address"
             autoCapitalize="none"

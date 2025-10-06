@@ -11,6 +11,7 @@ import {
 import useApi from '../../hooks/useApi';
 import {removeToken} from '../../utils/customFunctions';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export const ChangePassword = () => {
   const [crpassword, setCrPassword] = useState('');
   const [password, setPassword] = useState('');
@@ -61,6 +62,13 @@ export const ChangePassword = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+       {/* Back to Home Button */}
+      <TouchableOpacity
+  style={styles.backButton}
+  onPress={() => navigation.goBack()} // or navigation.navigate('Dashboard') if you want to go to a specific screen
+>
+  <Icon name="arrow-left" size={28} color="#333" />
+</TouchableOpacity>
       <Text style={styles.title}>Reset Your Password</Text>
 
       <View style={styles.inputGroup}>
@@ -144,7 +152,7 @@ const getReqStyle = (valid) => ({
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    marginTop:30,
+    marginTop:20,
     paddingBottom: 50
   },
   title: {

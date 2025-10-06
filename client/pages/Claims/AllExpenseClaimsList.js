@@ -8,9 +8,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import useApi from '../../hooks/useApi';
-import { navigate } from '../../components/navigationRef';
 import { useNavigation } from '@react-navigation/native';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export const AllExpenseClaimsList = () => {
   const navigation = useNavigation();
   const { fetchData, loading } = useApi();
@@ -38,6 +37,13 @@ export const AllExpenseClaimsList = () => {
 
   return (
     <ScrollView style={styles.container}>
+       {/* Back to Home Button */}
+      <TouchableOpacity
+  style={styles.backButton}
+  onPress={() => navigation.goBack()} // or navigation.navigate('Dashboard') if you want to go to a specific screen
+>
+  <Icon name="arrow-left" size={28} color="#333" />
+</TouchableOpacity>
       {selectedClaim ? (
   <>
     <TouchableOpacity onPress={() => setSelectedClaim(null)} style={{ marginBottom: 20 }}>
@@ -101,7 +107,7 @@ const InfoRow = ({ label, value, multiline = false }) => (
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    marginTop: 30,
+    marginTop: 20,
     backgroundColor: '#f9fafb',
   },
   pageTitle: {

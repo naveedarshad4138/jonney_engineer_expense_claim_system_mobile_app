@@ -13,6 +13,8 @@ import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import useApi from '../../hooks/useApi';
 import Constants from 'expo-constants';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 
 const expenseCategories = [
   'Fuel',
@@ -32,6 +34,7 @@ const expenseCategories = [
 ];
 
 export const AddExpenseClaim = ({ route }) => {
+  const navigation = useNavigation();
   const apiBaseUrl = Constants?.expoConfig?.extra?.apiBaseUrl;
   const { mode, claimData } = route.params || {};
   const {postData, deleteData} = useApi();
@@ -292,8 +295,13 @@ useEffect(() => {
 
 return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
+      {/* Back to Home Button */}
+      <TouchableOpacity
+  onPress={() => navigation.goBack()} // or navigation.navigate('Dashboard') if you want to go to a specific screen
+>
+  <Icon name="arrow-left" size={28} color="#333" />
+</TouchableOpacity>
       <Text style={styles.title}>EMPLOYEE INFORMATION</Text>
-
       <TouchableOpacity onPress={() => setShowFromPicker(true)} style={mode=='view'?styles.disabled:styles.input}>
         <Text style={{ color: formDetails.fromDate ? '#000' : '#999' }}>
          {
@@ -545,7 +553,7 @@ return (
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    // marginTop: 30,
+    marginTop: 20,
     paddingBottom: 50,
     backgroundColor: '#f9f9fb',
   },

@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { removeToken } from '../utils/customFunctions';
 import { navigate, navigationRef } from '../components/navigationRef';
+import { removeToken } from '../utils/customFunctions';
 import { CommonActions } from '@react-navigation/native';
 import useApi from '../hooks/useApi';
 import { useIsFocused } from '@react-navigation/native';

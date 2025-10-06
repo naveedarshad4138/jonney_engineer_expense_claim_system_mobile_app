@@ -76,6 +76,7 @@ export const ResetPassword = () => {
         <View style={styles.formGroup}>
           <Text style={styles.label}>OTP</Text>
           <TextInput
+            placeholderTextColor="#999"
             style={styles.input}
             placeholder="Enter OTP"
             keyboardType="number-pad"
@@ -89,6 +90,7 @@ export const ResetPassword = () => {
           <Text style={styles.label}>New Password</Text>
           <View style={styles.passwordField}>
             <TextInput
+              placeholderTextColor="#999"
               style={[styles.input, { flex: 1 }]}
               placeholder="Enter new password"
               secureTextEntry={!showPassword}
@@ -122,6 +124,7 @@ export const ResetPassword = () => {
           <Text style={styles.label}>Confirm Password</Text>
           <View style={styles.passwordField}>
             <TextInput
+            placeholderTextColor="#999"
               style={[styles.input, { flex: 1 }]}
               placeholder="Confirm new password"
               secureTextEntry={!showCPassword}
@@ -218,6 +221,7 @@ const styles = StyleSheet.create({
     borderColor: '#E5E7EB',
      shadowColor: '#7C3AED',
     shadowOpacity: 0.2,
+    color: '#000',
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 5 },
     elevation: 8,
