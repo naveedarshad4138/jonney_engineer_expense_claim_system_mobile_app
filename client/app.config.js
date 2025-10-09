@@ -18,8 +18,13 @@ export default {
         foregroundImage: "https://advancedbml.engineering/api/uploads/logo.png",
         backgroundColor: "#ffffff"
       },
-      edgeToEdgeEnabled: true
+      edgeToEdgeEnabled: true,
+      infoPlist: {
+        NSPhotoLibraryUsageDescription: "We need access to your photo library to upload receipts.",
+        NSCameraUsageDescription: "We need access to your camera to take photos of receipts."
+      }
     },
+    plugins: ["expo-image-picker"],
     extra: {
       apiBaseUrl: process.env.API_BASE_URL,
       eas: {

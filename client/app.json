@@ -18,7 +18,10 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "bundleIdentifier": "com.abml.expense"
+      "bundleIdentifier": "com.abml.expense",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "We need access to your photo library to upload receipts."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -32,10 +35,18 @@
       "favicon": "https://advancedbml.engineering/api/uploads/logo.png"
     },
     "extra": {
-  "eas": {
-    "projectId": "419cc52e-6956-4f48-bbc4-4be906554095"
-  }
-}
-
+      "eas": {
+        "projectId": "419cc52e-6956-4f48-bbc4-4be906554095"
+      }
+    },
+    "plugins": [
+        [
+          "expo-image-picker",
+          {
+            "photosPermission": "We need access to your photo library to upload receipts.",
+            "cameraPermission": "We need access to your camera to take receipt photos."
+          }
+        ]
+      ]
   }
 }

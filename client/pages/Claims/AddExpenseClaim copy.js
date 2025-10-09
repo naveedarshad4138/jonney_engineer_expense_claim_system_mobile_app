@@ -132,99 +132,56 @@ export const AddExpenseClaim = ({ route }) => {
     setExpenses(newExpenses);
   };
 
-  // Pick receipt image from galery or camera /////////
-    const pickReceipt = async (catIndex, jobIndex) => {
-      Alert.alert(
-        'Attach Receipt',
-        'Choose how you want to attach the receipt',
-        [
-          {
-            text: 'Cancel',
-            style: 'cancel',
-          },
-          {
-            text: 'Take Photo',
-            onPress: () => launchCamera(catIndex, jobIndex),
-          },
-          {
-            text: 'Choose from Library',
-            onPress: () => launchImageLibrary(catIndex, jobIndex),
-          },
-          
-        ],
-        { cancelable: true }
-      );
-    };
-    const launchCamera = async (catIndex, jobIndex) => {
-  const permission = await ImagePicker.requestCameraPermissionsAsync();
-  if (!permission.granted) {
-    Alert.alert('Permission needed', 'Camera access is required!');
-    return;
-  }
+  // Pick receipt image
+  const pickReceipt = async (catIndex, jobIndex) => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert('Permission needed', 'Media library permission required!');
+      return;
+    }
 
-  const result = await ImagePicker.launchCameraAsync({
-    allowsEditing: true,
-    quality: 0.7,
-  });
-
-  handleImageResult(result, catIndex, jobIndex);
-};
-
-const launchImageLibrary = async (catIndex, jobIndex) => {
-  const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  if (!permission.granted) {
-    Alert.alert('Permission needed', 'Media library access is required!');
-    return;
-  }
-
-  const result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    allowsEditing: true,
-    aspect: [4, 3],
-    quality: 0.7,
-  });
-
-  handleImageResult(result, catIndex, jobIndex);
-};
-const handleImageResult = async (result, catIndex, jobIndex) => {
-  if (!result.canceled && result.assets.length > 0) {
-    const image = result.assets[0];
-
-    const formData = new FormData();
-    formData.append('receipt', {
-      uri: image.uri,
-      name: image.fileName || `receipt-${catIndex}-${jobIndex}.jpg`,
-      type: image.mimeType || 'image/jpeg',
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images, // ✅ CORRECT ENUM
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.7,
     });
 
-    try {
-      const uploadRes = await postData(
-        'upload-file',
-        formData,
-        'Upload successful',
-        'Upload failed',
-        true // isMultipart
-      );
+    if (!result.canceled && result.assets.length > 0) {
+      const image = result.assets[0];
 
-      if (uploadRes && uploadRes.results?.fileUrl) {
-        const newExpenses = [...expenses];
-        newExpenses[catIndex][jobIndex].receiptUri = image.uri;
-        newExpenses[catIndex][jobIndex].receiptUrl = uploadRes.results.fileUrl;
-        newExpenses[catIndex][jobIndex].noReceiptFlag = false;
-        newExpenses[catIndex][jobIndex].noReceiptReason = '';
-        newExpenses[catIndex][jobIndex].showReasonInput = false;
-        setExpenses(newExpenses);
+      const formData = new FormData();
+      formData.append('receipt', {
+        uri: image.uri,
+        name: image.fileName || `receipt-${catIndex}-${jobIndex}.jpg`,
+        type: image.mimeType || 'image/jpeg',
+      });
+
+      try {
+        const uploadRes = await postData(
+          'upload-file',
+          formData,
+          'Upload successful',
+          'Upload failed',
+          true // isMultipart
+        );
+
+        if (uploadRes && uploadRes.results?.fileUrl) {
+          const newExpenses = [...expenses];
+          newExpenses[catIndex][jobIndex].receiptUri = image.uri;
+          newExpenses[catIndex][jobIndex].receiptUrl = uploadRes.results.fileUrl;
+          newExpenses[catIndex][jobIndex].noReceiptFlag = false;
+          newExpenses[catIndex][jobIndex].noReceiptReason = '';
+          newExpenses[catIndex][jobIndex].showReasonInput = false;
+          setExpenses(newExpenses);
+        }
+      } catch (err) {
+        console.warn('Image upload error:', err);
+        Alert.alert('Upload failed', 'Could not upload receipt');
       }
-    } catch (err) {
-      console.warn('Image upload error:', err);
-      Alert.alert('Upload failed', 'Could not upload receipt');
     }
-  }
-};
+  };
 
-
-  // Pick receipt image from galery or camera /////////
-  
 
   // Remove attached receipt
   const removeReceipt = async (catIndex, jobIndex) => {
