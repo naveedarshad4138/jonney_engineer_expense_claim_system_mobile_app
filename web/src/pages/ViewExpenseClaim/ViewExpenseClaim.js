@@ -20,66 +20,94 @@ const expenseCategories = [
   "Training Fees",
   "Others",
 ];
-export const  ViewExpenseClaim = () => { 
-  const { id } = useParams(); 
-  const navigate = useNavigate(); 
+
+export const ViewExpenseClaim = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const { fetchData, postData, status, setStatus, loading } = useApi();
-  const [claimData, setClaimData] = useState(null); 
-    // Reject or approve
-const handleStatus = (id, status) => async (e) => {
-        e.preventDefault();
-        if(status==='Rejected' && !window.confirm("Are you sure you want to reject this claim?")) return;
-        if(status==='Approved' && !window.confirm("Are you sure you want to approve this claim?")) return;
-        if (status==='Rejected') {
-          const res = await postData(`/form/expense/cancel/${id}`, { status: 'Rejected' },  'Rejected successfully', 'Failed');
-          console.log(res)
-            // await deleteData(`/form/${id}`, 'DELETE');
-            navigate('/expense-history');
-        }
-    };
+  const [claimData, setClaimData] = useState(null);
+
+  // State for image popup
+  const [popupImage, setPopupImage] = useState(null);
+
+  // Reject or approve
+  const handleStatus = (id, status) => async (e) => {
+    e.preventDefault();
+    if (status === "Rejected" && !window.confirm("Are you sure you want to reject this claim?")) return;
+    if (status === "Approved" && !window.confirm("Are you sure you want to approve this claim?")) return;
+    if (status === "Rejected") {
+      const res = await postData(`/form/expense/cancel/${id}`, { status: "Rejected" }, "Rejected successfully", "Failed");
+      console.log(res);
+      navigate("/expense-history");
+    }
+  };
+
   useEffect(() => {
-     if (id) {
-       (async () => { 
+    if (id) {
+      (async () => {
         const res = await fetchData(`form/expense/${id}`);
-         if (res?.results) { 
+        if (res?.results) {
           setClaimData(res.results);
-         } else {
-           setStatus({ type: 'error', message: 'Failed to fetch claim data' }); } })(); 
-          }
-  }, [id]); 
-  if (loading) return  <Layout page="singleexpense" data={claimData}><p>Loading...</p></Layout>; if (!claimData) return <Layout page="singleexpense" data={claimData}><p>No data found</p></Layout>; 
+        } else {
+          setStatus({ type: "error", message: "Failed to fetch claim data" });
+        }
+      })();
+    }
+  }, [id]);
+
+  if (loading)
+    return (
+      <Layout page="singleexpense" data={claimData}>
+        <p>Loading...</p>
+      </Layout>
+    );
+  if (!claimData)
+    return (
+      <Layout page="singleexpense" data={claimData}>
+        <p>No data found</p>
+      </Layout>
+    );
+
   const { generalInfo, jobs, total } = claimData;
-            
+
   return (
     <Layout page="singleexpense" data={claimData}>
       {/* {status && <Alert data={status} />} */}
       <div className="mb-4 d-flex justify-content-end gap-2 text-end">
-        {
-          claimData.status == 'Pending' && (
-            <>
-              <button class='btn btn-success' onClick={handleStatus(claimData._id, 'Approved')}>Approve</button>
-              <button class='btn btn-danger'onClick={handleStatus(claimData._id, 'Rejected')}>Cancel</button>
-            </>
-          )
+        {claimData.status === "Pending" && (
+          <>
+            <button className="btn btn-success" onClick={handleStatus(claimData._id, "Approved")}>
+              Approve
+            </button>
+            <button className="btn btn-danger" onClick={handleStatus(claimData._id, "Rejected")}>
+              Cancel
+            </button>
+          </>
+        )}
 
-        }
-        {
-          claimData.status != 'Pending' && 
-              <button class={`btn btn-${claimData.status=='Rejected'?'danger':'success'}`} disabled>{claimData.status}</button>
-        }
-        
+        {claimData.status !== "Pending" && (
+          <button className={`btn btn-${claimData.status === "Rejected" ? "danger" : "success"}`} disabled>
+            {claimData.status}
+          </button>
+        )}
       </div>
-    {/* <div className="container">
-      
-
-      <h2>Expense Claim Details</h2> */}
 
       <div className="infoSection">
-        <p><b>From Date:</b> {generalInfo.fromDate}</p>
-        <p><b>To Date:</b> {generalInfo.toDate}</p>
-        <p><b>Name:</b> {generalInfo.name}</p>
-        <p><b>Approved By:</b> {generalInfo.approvedBy}</p>
-        <p><b>Notes:</b> {generalInfo.notes}</p>
+        <p>
+          <b>From Date:</b> {generalInfo.fromDate}
+        </p>
+        <p>
+          <b>To Date:</b> {generalInfo.toDate}
+        </p>
+        <p>
+          <b>Name:</b> {generalInfo.name}
+        </p>
+        <p>
+          <b>Approved By:</b> {generalInfo.approvedBy}
+        </p>
+        <p>
+          <b>Notes:</b> {generalInfo.notes}
+        </p>
       </div>
       <div className="tableWrapper">
         <table className="expenseTable">
@@ -98,10 +126,11 @@ const handleStatus = (id, status) => async (e) => {
                 <tr key={category} className={idx % 2 === 1 ? "zebraRow" : ""}>
                   <td>{category}</td>
                   {jobs.map((job, j) => {
-                  {console.log(jobs)}
                     const expense = job.expenses.find((e) => e.category === category) || {};
                     const amount = Number(expense.amount || 0).toFixed(2);
-                    const receiptUri = expense.receiptUri ? (process.env.REACT_APP_API_BASE_URL + 'uploads/' + expense.receiptUri): false
+                    const receiptUri = expense.receiptUri
+                      ? process.env.REACT_APP_API_BASE_URL + "uploads/" + expense.receiptUri
+                      : false;
                     const noReceiptReason = expense.noReceiptReason || "";
 
                     return (
@@ -112,14 +141,11 @@ const handleStatus = (id, status) => async (e) => {
                             className="receiptImg"
                             src={receiptUri}
                             alt={`${category} receipt`}
+                            onClick={() => setPopupImage(receiptUri)}
+                            style={{ cursor: "pointer" }}
                           />
                         )}
-                        {noReceiptReason && (
-                          <div className="noReceiptReason">Reason: {noReceiptReason}</div>
-                        )}
-                        {/* {!receiptUri && !noReceiptReason && (
-                          <div className="noAttachment">No attachment</div>
-                        )} */}
+                        {noReceiptReason && <div className="noReceiptReason">Reason: {noReceiptReason}</div>}
                       </td>
                     );
                   })}
@@ -128,15 +154,39 @@ const handleStatus = (id, status) => async (e) => {
               );
             })}
             <tr className="totalsRow">
-              <td><b>Total</b></td>
+              <td>
+                <b>Total</b>
+              </td>
               {total.jobTotals.map((t, i) => (
-                <td key={i}><b>£{Number(t).toFixed(2)}</b></td>
+                <td key={i}>
+                  <b>£{Number(t).toFixed(2)}</b>
+                </td>
               ))}
-              <td><b>£{Number(total.subtotal).toFixed(2)}</b></td>
+              <td>
+                <b>£{Number(total.subtotal).toFixed(2)}</b>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      {/* Image Popup Modal */}
+      {popupImage && (
+        <div
+          className="imagePopupOverlay"
+          onClick={() => setPopupImage(null)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={() => setPopupImage(null)}
+        >
+          <div className="imagePopupContent" onClick={(e) => e.stopPropagation()}>
+            <button className="closeBtn" onClick={() => setPopupImage(null)}>
+              &times;
+            </button>
+            <img src={popupImage} alt="Full size receipt" />
+          </div>
+        </div>
+      )}
 
       <style>{`
         .container {
@@ -211,6 +261,7 @@ const handleStatus = (id, status) => async (e) => {
           object-fit: contain;
           border: 1px solid #ccc;
           border-radius: 4px;
+          cursor: pointer;
         }
         .noReceiptReason {
           margin-top: 6px;
@@ -222,8 +273,47 @@ const handleStatus = (id, status) => async (e) => {
           font-style: italic;
           color: #999;
         }
+        /* Popup overlay styles */
+        .imagePopupOverlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0,0,0,0.7);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        }
+        .imagePopupContent {
+          position: relative;
+          max-width: 90%;
+          max-height: 90%;
+          background: white;
+          padding: 10px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px black;
+        }
+        .imagePopupContent img {
+          max-width: 100%;
+          max-height: 80vh;
+          display: block;
+          margin: auto;
+          border-radius: 4px;
+        }
+        .closeBtn {
+          position: absolute;
+          top: 5px;
+          right: 10px;
+          background: transparent;
+          border: none;
+          font-size: 30px;
+          line-height: 1;
+          cursor: pointer;
+          color: #333;
+        }
       `}</style>
-    
     </Layout>
   );
-}
+};
