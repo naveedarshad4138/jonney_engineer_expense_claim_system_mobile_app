@@ -3,7 +3,7 @@ const router = express.Router();
 const expenseClaimController  = require('../controllers/expenseClaimController');
 
 const auth = require('../middleware/auth');
-
+const adminAuth = require('../middleware/adminAuth');
 // Route with auth + multer upload
 router.post(
   '/expense-claims',
@@ -13,10 +13,11 @@ router.post(
 router.get('/', auth, expenseClaimController.getExpenseClaim);
 // router.post('/add', auth, authController.addForm);
 // router.post('/history-results', auth, authController.updateHistoryResults);
-// router.get('/history-results/:form_id', authController.getHistoryByFormId);
+router.get('/expense/:id',adminAuth, expenseClaimController.getExpenseClaimById);
+router.post('/expense/cancel/:id',adminAuth, expenseClaimController.cancelExpenseClaimById);
 // router.put('/:id', auth, authController.editForm);
-// router.get('/all', adminAuth, authController.getAllFormHistory);
-// router.delete('/:id', auth, authController.deleteForm);
+router.get('/all', adminAuth, expenseClaimController.getAllExpenseHistory);
+router.delete('/:id', adminAuth, expenseClaimController.deleteExpenseClaimById); 
 
 
 module.exports = router;    

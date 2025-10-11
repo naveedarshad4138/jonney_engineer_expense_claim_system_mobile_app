@@ -1,0 +1,144 @@
+*{
+  padding: 0;
+  margin:0;
+}
+
+/* General Styles */
+  .register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+     display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #e0e5ec;
+  }
+    .register-container .col-6{
+      padding: 0;
+    }
+    .register-container .username, .register-container .email{
+padding-right: 8px;
+    }
+  /* Register Box Styles */
+  .register-box {
+    background: #e0e5ec;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px #a3b1c6, -10px -10px 20px #ffffff;
+    text-align: center;
+    width: 500px;
+  }
+  
+  .register-box h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Avatar/Logo Styles */
+ .register-container .avatar {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .register-container .avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+  }
+  
+  /* Input Group Styles */
+  .register-container .input-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .register-container .input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .register-container .input-group input {
+    width: -webkit-fill-available;
+    padding: 10px;
+    border: none;
+    border-radius: 10px!important;
+    background: #e0e5ec;
+    box-shadow: inset 5px 5px 10px #a3b1c6, inset -4px -5px 0px #ffffff;
+    /* box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff; */
+    color: #333;
+    font-size: 16px;
+  }
+  
+  /* Password Input Container */
+  .register-container .password-input {
+    position: relative;
+  }
+  
+ 
+  
+  .register-container .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: #555; /* Icon color */
+    transition: color 0.3s ease;
+  }
+  
+  .register-container .toggle-password:hover {
+    color: #333; /* Icon hover color */
+  }
+  
+  .register-container.toggle-password svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Button Styles */
+  .register-container button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #e0e5ec;
+    box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .register-container button:hover {
+    box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
+  }
+  
+  /* Links Styles */
+  .register-container .links {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .register-container .links a {
+    display: block;
+    margin: 10px 0;
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+  
+  .register-container.links a:hover {
+    color: #333;
+  }

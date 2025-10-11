@@ -3,54 +3,54 @@ const Claims = require('../models/Claims');
 // POST: Create a new expense claim
 const User = require('../models/User');  // Make sure you require the User model
 
-exports.createExpenseClaim = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const { generalInfo, jobs, total } = req.body;
+  exports.createExpenseClaim = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { generalInfo, jobs, total } = req.body;
 
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
+        if (!userId) {
+          return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        // Fetch user to access float values
+        const user = await User.findById(userId);
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+
+        const claimTotal = parseFloat(total?.subtotal || 0);
+
+        // Check if user has enough float
+        if (user.currentFloat < claimTotal) {
+            return res.status(400).json({
+            message: `Insufficient float. Available: £${user.currentFloat.toFixed(2)}, Required: £${claimTotal.toFixed(2)}.`,
+          });
+        }
+
+        // Deduct claim amount from currentFloat
+        user.currentFloat -= claimTotal;
+        await user.save();
+
+        // Create the claim
+        const claim = new Claims({
+          userId,
+          generalInfo,
+          jobs,
+          total,
+        });
+
+        await claim.save();
+
+        res.status(201).json({
+          message: 'Expense claim submitted & float deducted.',
+          results: claim,
+          updatedFloat: user.currentFloat,
+        });
+
+    } catch (error) {
+      console.error('Claim submission error:', error);
+      res.status(500).json({ error: 'Failed to submit claim' });
     }
-
-    // Fetch user to access float values
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    const claimTotal = parseFloat(total?.subtotal || 0);
-
-    // Check if user has enough float
-    if (user.currentFloat < claimTotal) {
-      return res.status(400).json({
-        message: `Insufficient float. Available: £${user.currentFloat.toFixed(2)}, Required: £${claimTotal.toFixed(2)}.`,
-      });
-    }
-
-    // Deduct claim amount from currentFloat
-    user.currentFloat -= claimTotal;
-    await user.save();
-
-    // Create the claim
-    const claim = new Claims({
-      userId,
-      generalInfo,
-      jobs,
-      total,
-    });
-
-    await claim.save();
-
-    res.status(201).json({
-      message: 'Expense claim submitted & float deducted.',
-      results: claim,
-      updatedFloat: user.currentFloat,
-    });
-
-  } catch (error) {
-    console.error('Claim submission error:', error);
-    res.status(500).json({ error: 'Failed to submit claim' });
-  }
 };
 
 
@@ -71,7 +71,7 @@ exports.getExpenseClaim = async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 };
-exports.getAllFormHistory = async (req, res) => {
+exports.getAllExpenseHistory = async (req, res) => {
   try {
     const forms = await Claims.find()
       .sort({ createdAt: -1 }) // Sort by most recent first
@@ -88,79 +88,82 @@ exports.getAllFormHistory = async (req, res) => {
   }
 };
 
-
-exports.deleteForm = async (req, res) => {
+// DELETE: Delete a specific expense claim by ID
+exports.deleteExpenseClaimById = async (req, res) => {
   try {
-    const form = await FormHistory.findById(req.params.id);
+    const { id } = req.params;
 
-    // If form not found
-    if (!form) {
-      return res.status(404).json({ status: 404, message: 'Form not found' });
+    if (!id) {
+      return res.status(400).json({ message: "Missing claim ID" });
     }
 
-    // Check if the user is the owner
-    if (form.user_id.toString() !== req.user.id) {
-      return res.status(403).json({ status: 403, message: 'Unauthorized to delete this form' });
-    }
+    const deletedClaim = await Claims.findByIdAndDelete(id);
 
-    await form.deleteOne(); // or form.remove()
+    if (!deletedClaim) {
+      return res.status(404).json({ message: "Claim not found" });
+    }
 
     res.status(200).json({
-      status: 200,
-      message: 'Form deleted successfully',
-      results: [],
+      message: "Claim deleted successfully",
+      results: deletedClaim,
     });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: 'Server Error' });
-  }
-};
-exports.editForm = async (req, res) => {
-  try {
-    const formId = req.params.id;
 
-    const {
-      business_name,
-      owner_name,
-      ein,
-      domain
-    } = req.body;
+  } catch (error) {
+    console.error("❌ Error deleting claim by ID:", error);
 
-    const form = await FormHistory.findById(formId);
-
-    if (!form) {
-      return res.status(404).json({ message: 'Form not found' });
+    if (error.name === 'CastError') {
+      return res.status(400).json({ message: "Invalid claim ID format" });
     }
 
-    // 🔒 Optional: Only allow the owner to edit
-    if (form.user_id.toString() !== req.user.id) {
-      return res.status(403).json({ message: 'Unauthorized to edit this form' });
-    }
-
-    // ✅ Update fields
-    if (business_name) form.business_name = business_name;
-    if (owner_name) form.owner_name = owner_name;
-    if (ein) form.ein = ein;
-    if (domain) form.domain = domain;
-
-    // Optional: If EIN or business name changed, you might want to trigger new Ocrolus processing
-    // (Only if needed; otherwise skip this)
-    // const updatedBook = await addOcrolusBook(form, business_name, ein, [], res);
-    // form.ocrolus_book_uuid = updatedBook.book_uuid;
-
-    await form.save();
-
-    res.status(200).json({
-      message: 'Record updated successfully',
-      results: form
-    });
-  } catch (err) {
-    console.error('Edit form error:', err.message);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// exports.editForm = async (req, res) => {
+//   try {
+//     const formId = req.params.id;
+
+//     const {
+//       business_name,
+//       owner_name,
+//       ein,
+//       domain
+//     } = req.body;
+
+//     const form = await FormHistory.findById(formId);
+
+//     if (!form) {
+//       return res.status(404).json({ message: 'Form not found' });
+//     }
+
+//     // 🔒 Optional: Only allow the owner to edit
+//     if (form.user_id.toString() !== req.user.id) {
+//       return res.status(403).json({ message: 'Unauthorized to edit this form' });
+//     }
+
+//     // ✅ Update fields
+//     if (business_name) form.business_name = business_name;
+//     if (owner_name) form.owner_name = owner_name;
+//     if (ein) form.ein = ein;
+//     if (domain) form.domain = domain;
+
+//     // Optional: If EIN or business name changed, you might want to trigger new Ocrolus processing
+//     // (Only if needed; otherwise skip this)
+//     // const updatedBook = await addOcrolusBook(form, business_name, ein, [], res);
+//     // form.ocrolus_book_uuid = updatedBook.book_uuid;
+
+//     await form.save();
+
+//     res.status(200).json({
+//       message: 'Record updated successfully',
+//       results: form
+//     });
+//   } catch (err) {
+//     console.error('Edit form error:', err.message);
+//     res.status(500).json({ message: 'Server Error' });
+//   }
+// };
 //////////////// add deep search and website analysis in database ///////////////////////
-
 
 // POST /api/history-results/update
 exports.updateHistoryResults = async (req, res) => {
@@ -200,26 +203,82 @@ exports.updateHistoryResults = async (req, res) => {
   }
 };
 ///////////// get history record by from id ///////////////////////
-exports.getHistoryByFormId = async (req, res) => {
+// GET: Fetch a specific expense claim by ID
+exports.getExpenseClaimById = async (req, res) => {
   try {
-    const { form_id } = req.params;
+    const { id } = req.params;
 
-    if (!form_id) {
-      return res.status(400).json({ message: "Missing form_id" });
+    if (!id) {
+      return res.status(400).json({ message: "Missing claim ID" });
     }
 
-    const history = await HistoryResults.findOne({ form_id });
+    const claim = await Claims.findById(id);
 
-    if (!history) {
-      return res.status(404).json({ message: "No history found for this form_id" });
+    if (!claim) {
+      return res.status(404).json({ message: "Claim not found" });
     }
 
     res.status(200).json({
       message: '',
-      results: history
-    })
-  } catch (err) {
-    console.error("❌ Error fetching history:", err);
+      results: claim
+    });
+
+  } catch (error) {
+    console.error("❌ Error fetching claim by ID:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+// PATCH: Cancel claim and restore float (soft delete)
+exports.cancelExpenseClaimById = async (req, res) => {
+  try {
+    const { id } = req.params;
+console.log(id)
+    if (!id) return res.status(400).json({ message: "Missing claim ID" });
+
+    // 1. Find the claim
+    const claim = await Claims.findById(id);
+    if (!claim) return res.status(404).json({ message: "Claim not found" });
+
+    const userId = claim.userId;
+    const refundAmount = Number(claim.total?.subtotal || 0);
+
+    // Prevent cancel if already canceled or approved
+    if (claim.status === 'Rejected') {
+      return res.status(400).json({ message: "Claim already canceled" });
+    }
+    if (claim.status === 'Approved') {
+      return res.status(400).json({ message: "Approved claims cannot be canceled" });
+    }
+    console.log(userId)
+    // 2. Find user
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // 3. Restore float
+    user.currentFloat += refundAmount;
+    await user.save();
+
+    // 4. Mark claim as canceled
+    claim.status = "Rejected";
+    await claim.save();
+
+    res.status(200).json({
+      message: "Claim canceled and float restored",
+      results: {
+        claimId: claim._id,
+        newClaimStatus: claim.status,
+        newUserFloat: user.currentFloat,
+        refundedAmount: refundAmount
+      }
+    });
+
+  } catch (error) {
+    console.error("❌ Error canceling claim:", error);
+
+    if (error.name === 'CastError') {
+      return res.status(400).json({ message: "Invalid ID format" });
+    }
+
     res.status(500).json({ message: "Internal server error" });
   }
 };

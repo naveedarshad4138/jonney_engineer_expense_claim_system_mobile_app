@@ -119,7 +119,7 @@ exports.updateUser = async (req, res) => {
     }
 
     // Fields allowed to be updated
-    const allowedUpdates = ['username', 'email', 'role'];
+    const allowedUpdates = ['username', 'email', 'role', 'currentFloat'];
     const updates = {};
     allowedUpdates.forEach((field) => {
       if (req.body[field] !== undefined) {
