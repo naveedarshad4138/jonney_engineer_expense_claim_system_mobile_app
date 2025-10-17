@@ -282,3 +282,74 @@ console.log(id)
     res.status(500).json({ message: "Internal server error" });
   }
 };
+// PATCH: Approve claim and set approvedBy field
+exports.approveExpenseClaimById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const adminId = req.user.id;
+
+    if (!id) return res.status(400).json({ message: "Missing claim ID" });
+
+    // 1. Fetch claim
+    const claim = await Claims.findById(id);
+    if (!claim) return res.status(404).json({ message: "Claim not found" });
+
+    if (claim.status !== 'Pending') {
+      return res.status(400).json({ message: `Cannot approve a claim that is already ${claim.status}` });
+    }
+
+    // 2. Fetch admin user (approver)
+    const adminUser = await User.findById(adminId);
+    if (!adminUser) return res.status(404).json({ message: "Approver not found" });
+
+    // 3. Update claim
+    claim.status = "Approved";
+    claim.generalInfo = {
+      ...claim.generalInfo,
+      approvedBy: adminUser.username
+    };
+
+    await claim.save();
+
+    // 4. Build payload for PHP QuickBooks API
+    const quickbooksPayload = {
+      customerName: claim.generalInfo?.name || "Unknown",
+      amount: Number(claim.total?.subtotal || 0),
+      date: claim.generalInfo?.toDate || new Date().toISOString().split('T')[0],
+      creditCardAccountId: "42",
+      expenseAccountId: "58"
+    };
+
+    // 5. POST to PHP endpoint
+    try {
+      const qbResponse = await fetch('https://advancedbml.engineering/api/quickbook/add_expense.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add Cookie header if needed (only if the PHP endpoint requires it)
+          // 'Cookie': 'PHPSESSID=your-session-id-here'
+        },
+        body: JSON.stringify(quickbooksPayload)
+      });
+
+      const qbResult = await qbResponse.json();
+      console.log("✅ QuickBooks PHP sync result:", qbResult);
+    } catch (error) {
+      console.error("❌ Failed to sync with QuickBooks PHP API:", error.message);
+      // You can still return success if this fails — or return a warning
+    }
+
+    res.status(200).json({
+      message: "Claim approved and QuickBooks sync triggered",
+      results: {
+        claimId: claim._id,
+        status: claim.status,
+        approvedBy: adminUser.name
+      }
+    });
+
+  } catch (error) {
+    console.error("❌ Error approving claim:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

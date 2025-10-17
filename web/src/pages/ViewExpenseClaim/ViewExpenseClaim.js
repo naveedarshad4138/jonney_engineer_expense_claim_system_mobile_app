@@ -32,15 +32,30 @@ export const ViewExpenseClaim = () => {
 
   // Reject or approve
   const handleStatus = (id, status) => async (e) => {
-    e.preventDefault();
-    if (status === "Rejected" && !window.confirm("Are you sure you want to reject this claim?")) return;
-    if (status === "Approved" && !window.confirm("Are you sure you want to approve this claim?")) return;
-    if (status === "Rejected") {
-      const res = await postData(`/form/expense/cancel/${id}`, { status: "Rejected" }, "Rejected successfully", "Failed");
-      console.log(res);
-      navigate("/expense-history");
-    }
-  };
+  e.preventDefault();
+
+  const confirmMsg = status === "Rejected"
+    ? "Are you sure you want to reject this claim?"
+    : "Are you sure you want to approve this claim?";
+
+  if (!window.confirm(confirmMsg)) return;
+
+  const endpoint = status === "Rejected"
+    ? `/form/expense/cancel/${id}`
+    : `/form/expense/approve/${id}`;
+
+  const res = await postData(
+    endpoint,
+    { status },
+    `${status} successfully`,
+    "Failed"
+  );
+
+  navigate("/expense-history");
+};
+
+
+
 
   useEffect(() => {
     if (id) {
