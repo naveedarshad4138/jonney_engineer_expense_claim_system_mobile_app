@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "e4c414a4-7af9-4b91-9c08-708170f098a1",
-		"name": "steddy.ai",
+		"_postman_id": "84bf0ef0-3645-47de-ae19-8a861edd2abe",
+		"name": "jonney_app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33808702"
 	},
@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"naveed@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"raw": "{\r\n    \"email\": \"johnny@advancedbml.com\",\r\n    \"password\": \"Sparkey00#\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -24,18 +24,14 @@
 							}
 						},
 						"url": {
-							"raw": "https://wasimamjad.com/API/naveed/2025/steddy_web/backend/api/auth/login",
+							"raw": "https://advancedbml.engineering/v1/api/auth/login",
 							"protocol": "https",
 							"host": [
-								"wasimamjad",
-								"com"
+								"advancedbml",
+								"engineering"
 							],
 							"path": [
-								"API",
-								"naveed",
-								"2025",
-								"steddy_web",
-								"backend",
+								"v1",
 								"api",
 								"auth",
 								"login"
@@ -331,7 +327,7 @@
 			]
 		},
 		{
-			"name": "FormHistory",
+			"name": "AddExpenseClaim",
 			"item": [
 				{
 					"name": "add",
@@ -341,7 +337,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhhMzE0MTFhNmI2NTVjYzFiNDFkYWU5Iiwicm9sZSI6IlVzZXIiLCJ1c2VybmFtZSI6Ik5hdmVlZCBBcnNoYWQgIn0sImlhdCI6MTc1NTU5NTcyOSwiZXhwIjoxNzU1NTk5MzI5fQ.PA9-gB-gLUCTdfsmPJ-PpPSSpq1txbEh6XEf9WgqjO8",
 									"type": "string"
 								}
 							]
@@ -350,42 +346,21 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzROakU0WVRSaVlUVTFOamt5TXpKbVlXRXpOVEF6SWl3aWNtOXNaU0k2SWtGa2JXbHVJbjBzSW1saGRDSTZNVGMxTXpnMk1qa3hPQ3dpWlhod0lqb3hOelV6T0RZMk5URTRmUS5rM0JMMHNraFdOZzRvRHZuZldHc0xta3RFMnRUZ0hlSmNTbzFZd1paczk0IiwiZXhwaXJlc0F0IjoxNzUzODY2NTE4NjU5fQ",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qaGhNekUwTVRGaE5tSTJOVFZqWXpGaU5ERmtZV1U1SWl3aWNtOXNaU0k2SWxWelpYSWlMQ0oxYzJWeWJtRnRaU0k2SWs1aGRtVmxaQ0JCY25Ob1lXUWdJbjBzSW1saGRDSTZNVGMxTlRVNU5qQXpNeXdpWlhod0lqb3hOelUxTlRrNU5qTXpmUS5kRXduWXBiWnhPOW15OUJ4c1hZcUo4N0doTnFUdi1aY3JBZVNSVGVFOHZVIiwiZXhwaXJlc0F0IjoxNzU1NTk5NjMzMjI3fQ==",
 								"type": "text"
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "business_name",
-									"value": "The Vibration Guys",
-									"type": "text"
-								},
-								{
-									"key": "owner_name",
-									"value": "The Vibration Guys",
-									"type": "text"
-								},
-								{
-									"key": "ein",
-									"value": "82-3993418",
-									"type": "text"
-								},
-								{
-									"key": "domain",
-									"value": "acmecorp.com",
-									"type": "text"
-								},
-								{
-									"key": "files",
-									"type": "file",
-									"src": "/C:/Users/hp/Downloads/fwdchipmastersmfgincsubmissionforreview/MAY 2025.pdf"
+							"mode": "raw",
+							"raw": "{\r\n  \"fromDate\": \"2025-08-01\",\r\n  \"toDate\": \"2025-08-07\",\r\n  \"name\": \"Alan Cogan\",\r\n  \"approvedBy\": \"Johnny McCormick\",\r\n  \"notes\": \"Weekly expenses\",\r\n  \"totalAmount\": 839.11,\r\n  \"expenses\": [\r\n    {\r\n      \"category\": \"Fuel\",\r\n      \"jobs\": [25.5, 35.6, 0, 0, 0, 0, 0, 0, 0],\r\n      \"total\": 61.1,\r\n      \"fileurl\": \"filename1.png\"\r\n    },\r\n    {\r\n      \"category\": \"Post\",\r\n      \"jobs\": [10, 0, 0, 0, 0, 0, 0, 0, 0],\r\n      \"total\": 10,\r\n      \"fileurl\": \"filename2.png\"\r\n    },\r\n    {\r\n      \"category\": \"Car Service\",\r\n      \"jobs\": [0, 0, 0, 0, 0, 0, 100, 0, 0],\r\n      \"total\": 100,\r\n      \"fileurl\": \"filename3.png\"\r\n    },\r\n    {\r\n      \"category\": \"Travel\",\r\n      \"jobs\": [150, 80, 0, 0, 0, 0, 0, 0, 0],\r\n      \"total\": 230,\r\n      \"fileurl\": \"filename4.png\"\r\n    },\r\n    {\r\n      \"category\": \"Materials\",\r\n      \"jobs\": [75.5, 0, 0, 0, 0, 0, 0, 0, 0],\r\n      \"total\": 75.5,\r\n      \"fileurl\": \"filename5.png\"\r\n    },\r\n    {\r\n      \"category\": \"Software\",\r\n      \"jobs\": [0, 0, 0, 0, 0, 50, 0, 0, 0],\r\n      \"total\": 50,\r\n      \"fileurl\": \"filename6.png\"\r\n    },\r\n    {\r\n      \"category\": \"Meals\",\r\n      \"jobs\": [20.5, 40, 12.5, 10.5, 22, 15.5, 0, 0, 0],\r\n      \"total\": 121,\r\n      \"fileurl\": \"filename7.png\"\r\n    },\r\n    {\r\n      \"category\": \"Internet\",\r\n      \"jobs\": [35, 0, 0, 0, 0, 0, 0, 0, 0],\r\n      \"total\": 35,\r\n      \"fileurl\": \"filename8.png\"\r\n    },\r\n    {\r\n      \"category\": \"Stationary\",\r\n      \"jobs\": [0, 0, 0, 15, 0, 0, 0, 0, 0],\r\n      \"total\": 15,\r\n      \"fileurl\": \"filename9.png\"\r\n    },\r\n    {\r\n      \"category\": \"Office\",\r\n      \"jobs\": [0, 0, 0, 0, 0, 0, 0, 25.88, 0],\r\n      \"total\": 25.88,\r\n      \"fileurl\": \"filename10.png\"\r\n    },\r\n    {\r\n      \"category\": \"Accomodation\",\r\n      \"jobs\": [0, 0, 200, 0, 0, 0, 0, 0, 0],\r\n      \"total\": 200,\r\n      \"fileurl\": \"filename11.png\"\r\n    },\r\n    {\r\n      \"category\": \"Other\",\r\n      \"jobs\": [0, 0, 0, 0, 0, 0, 10, 0, 0],\r\n      \"total\": 10,\r\n      \"fileurl\": \"filename12.png\"\r\n    },\r\n    {\r\n      \"category\": \"Entertaining\",\r\n      \"jobs\": [50, 0, 0, 0, 0, 0, 0, 0, 0],\r\n      \"total\": 50,\r\n      \"fileurl\": \"filename13.png\"\r\n    },\r\n    {\r\n      \"category\": \"Training Fees\",\r\n      \"jobs\": [0, 0, 0, 0, 250, 0, 0, 0, 0],\r\n      \"total\": 250,\r\n      \"fileurl\": \"filename14.png\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "localhost:5000/api/form/add",
+							"raw": "localhost:5000/api/form/expense-claims",
 							"host": [
 								"localhost"
 							],
@@ -393,14 +368,17 @@
 							"path": [
 								"api",
 								"form",
-								"add"
+								"expense-claims"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "add form history",
+					"name": "get Claimhistory",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -412,11 +390,11 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzRZVFk1Wm1NMlpUa3daVEkyTXpobE1UUXdNR0poSWl3aWNtOXNaU0k2SWtGa2JXbHVJaXdpZFhObGNtNWhiV1VpT2lKT1lYWmxaV1FnUVhKemFHRmtJbjBzSW1saGRDSTZNVGMxTkRRMk1UTXlNQ3dpWlhod0lqb3hOelUwTkRZME9USXdmUS5nZ0p5WGNrZEwzejdLV1pMUll4YktQYXZLRTA5VkF0ZmNfSkM5M0RYaUJVIiwiZXhwaXJlc0F0IjoxNzU0NDY0OTIwMTI2fQ",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qaGpZV1ZtWVRJNFlqbGpNV1F3TVRjM1pUbGpaVFJrSWl3aWNtOXNaU0k2SWtGa2JXbHVJaXdpZFhObGNtNWhiV1VpT2lKT1lYWmxaV1FnWVhKemFHRmtJaXdpWTNWeWNtVnVkRVpzYjJGMElqb3lNRFI5TENKcFlYUWlPakUzTmpBd01ETTJOVGdzSW1WNGNDSTZNVGMyTURFM05qUTFPSDAuMmJCNDdCV2lManQ1dlRFeFF0bWhBS1pFUjFfM3lJWGNaV2lKeW1JT01rNCIsImV4cGlyZXNBdCI6MTc2MDAwNzI2MDAzMn0=",
 								"type": "text"
 							}
 						],
@@ -430,7 +408,8 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:5000/api/form/history-results",
+							"raw": "http://localhost:5000/api/form/expense/68ce962f74a0136dcc8a9a91",
+							"protocol": "http",
 							"host": [
 								"localhost"
 							],
@@ -438,52 +417,8 @@
 							"path": [
 								"api",
 								"form",
-								"history-results"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get formhistory",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "x-auth-token",
-								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzRZVFk1Wm1NMlpUa3daVEkyTXpobE1UUXdNR0poSWl3aWNtOXNaU0k2SWtGa2JXbHVJaXdpZFhObGNtNWhiV1VpT2lKT1lYWmxaV1FnUVhKemFHRmtJbjBzSW1saGRDSTZNVGMxTkRRMk1UTXlNQ3dpWlhod0lqb3hOelUwTkRZME9USXdmUS5nZ0p5WGNrZEwzejdLV1pMUll4YktQYXZLRTA5VkF0ZmNfSkM5M0RYaUJVIiwiZXhwaXJlc0F0IjoxNzU0NDY0OTIwMTI2fQ",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"form_id\": \"6892fae9a00de1c8343f8ca6\",\r\n    \"websiteSearch\": {\r\n    \"outputs\": {\r\n        \"out-0\": \"{'domain': 'STACK-AI.COM', 'status': ['client delete prohibited', 'client transfer prohibited'], 'registrar': None, 'nameservers': ['NS1.VERCEL-DNS.COM', 'NS2.VERCEL-DNS.COM'], 'events': {'registration': '2022-12-07T21:21:31Z', 'expiration': '2025-12-07T21:21:31Z', 'last changed': '2024-11-23T00:22:33Z', 'last update of RDAP database': '2025-08-06T06:49:02Z'}}\"\r\n    },\r\n    \"citations\": null,\r\n    \"run_id\": \"027fee13-48e6-4a2b-ab07-c9d733d7e658\",\r\n    \"metadata\": null,\r\n    \"progress_data\": null\r\n}\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:5000/api/form/history-results",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"form",
-								"history-results"
+								"expense",
+								"68ce962f74a0136dcc8a9a91"
 							]
 						}
 					},
@@ -491,6 +426,59 @@
 				},
 				{
 					"name": "getall",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzRZamt4T1RGaVkyUmhaak5qTURObE4ySmtNREExSWl3aWNtOXNaU0k2SWxWelpYSWlMQ0oxYzJWeWJtRnRaU0k2SW5kaGFHVmxaQ0JoYUcxaFpDQWlmU3dpYVdGMElqb3hOelUwTXpNd01ERTRMQ0psZUhBaU9qRTNOVFF6TXpNMk1UaDkudkFGYmtRbjNBQkFKc241RURRVnd0eTlTLXdvV3h1dkxhZ1hldGZfdnJEZyIsImV4cGlyZXNBdCI6MTc1NDMzMzYxNzkwNH0=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"business_name\": \"Acme Corp\",\r\n  \"owner_name\": \"John Doe\",\r\n  \"ein\": \"12-3456789\",\r\n  \"name\": \"Jane Doe\",\r\n  \"email\": \"jane@example.com\",\r\n  \"domain\": \"acmecorp.com\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://wasimamjad.com/API/naveed/2025/steddy_web/backend/api/form",
+							"protocol": "https",
+							"host": [
+								"wasimamjad",
+								"com"
+							],
+							"path": [
+								"API",
+								"naveed",
+								"2025",
+								"steddy_web",
+								"backend",
+								"api",
+								"form"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admingetallexpenses",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -559,7 +547,7 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzRZamt4T1RGaVkyUmhaak5qTURObE4ySmtNREExSWl3aWNtOXNaU0k2SWxWelpYSWlMQ0oxYzJWeWJtRnRaU0k2SW5kaGFHVmxaQ0JoYUcxaFpDQWlmU3dpYVdGMElqb3hOelUwTXpNd01ERTRMQ0psZUhBaU9qRTNOVFF6TXpNMk1UaDkudkFGYmtRbjNBQkFKc241RURRVnd0eTlTLXdvV3h1dkxhZ1hldGZfdnJEZyIsImV4cGlyZXNBdCI6MTc1NDMzMzYxNzkwNH0=",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qaGpZV1ZtWVRJNFlqbGpNV1F3TVRjM1pUbGpaVFJrSWl3aWNtOXNaU0k2SWtGa2JXbHVJaXdpZFhObGNtNWhiV1VpT2lKT1lYWmxaV1FnWVhKemFHRmtJaXdpWTNWeWNtVnVkRVpzYjJGMElqb3lNRFI5TENKcFlYUWlPakUzTmpBeE5qRTJOekVzSW1WNGNDSTZNVGMyTURNek5EUTNNWDAuR1pYQ2FXRFlad1IxckIzOF9ackZ5c2NUZFBWdWRxbVJmUHRoZ0FvdkZ3MCIsImV4cGlyZXNBdCI6MTc2MDE2NTI3MjYzNn0=",
 								"type": "text"
 							}
 						],
@@ -573,21 +561,112 @@
 							}
 						},
 						"url": {
-							"raw": "https://wasimamjad.com/API/naveed/2025/steddy_web/backend/api/form/688b9407a01268a04486dbca",
-							"protocol": "https",
+							"raw": "http://localhost:5000/api/form/68e511f47bb06e0e8024e101",
+							"protocol": "http",
 							"host": [
-								"wasimamjad",
-								"com"
+								"localhost"
 							],
+							"port": "5000",
 							"path": [
-								"API",
-								"naveed",
-								"2025",
-								"steddy_web",
-								"backend",
 								"api",
 								"form",
-								"688b9407a01268a04486dbca"
+								"68e511f47bb06e0e8024e101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Expense",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qaGpZV1ZtWVRJNFlqbGpNV1F3TVRjM1pUbGpaVFJrSWl3aWNtOXNaU0k2SWtGa2JXbHVJaXdpZFhObGNtNWhiV1VpT2lKT1lYWmxaV1FnWVhKemFHRmtJaXdpWTNWeWNtVnVkRVpzYjJGMElqb3lNRFI5TENKcFlYUWlPakUzTmpBeE5qRTJOekVzSW1WNGNDSTZNVGMyTURNek5EUTNNWDAuR1pYQ2FXRFlad1IxckIzOF9ackZ5c2NUZFBWdWRxbVJmUHRoZ0FvdkZ3MCIsImV4cGlyZXNBdCI6MTc2MDE2NTI3MjYzNn0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/form/expense/cancel/68ce961b74a0136dcc8a9a7c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"form",
+								"expense",
+								"cancel",
+								"68ce961b74a0136dcc8a9a7c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approved Expense",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qaGpZV1ZtWVRJNFlqbGpNV1F3TVRjM1pUbGpaVFJrSWl3aWNtOXNaU0k2SWtGa2JXbHVJaXdpZFhObGNtNWhiV1VpT2lKT1lYWmxaV1FnWVhKemFHRmtJaXdpWTNWeWNtVnVkRVpzYjJGMElqbzFNamw5TENKcFlYUWlPakUzTmpBMk9EQXlOak1zSW1WNGNDSTZNVGMyTURnMU16QTJNMzAuNjQ2WFpaTjI2QWx3amlHYTF4N21VMGxkYlhQdXVrQ042amo4U2V5aFNrayIsImV4cGlyZXNBdCI6MTc2MDY4Mzg2MzQyMH0=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/form/expense/approve/68ce962f74a0136dcc8a9a91",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"form",
+								"expense",
+								"approve",
+								"68ce962f74a0136dcc8a9a91"
 							]
 						}
 					},
@@ -647,10 +726,10 @@
 			]
 		},
 		{
-			"name": "CronJobs",
+			"name": "upload file",
 			"item": [
 				{
-					"name": "create",
+					"name": "upload",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -671,24 +750,99 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n      \"jobName\": \"My Cron Job111\",\r\n      \"cronTime\": \"*/1 * * * *\",// every 1 minutes\r\n      \"jobCommand\": \"https://wasimamjad.com/API/naveed/2025/cronjobstest/test.php\",\r\n      \"creditsPerRun\": 1\r\n    }",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "receipt",
+									"type": "file",
+									"src": "/C:/Users/hp/Pictures/Screenshots/Screenshot (4).png"
 								}
-							}
+							]
 						},
 						"url": {
-							"raw": "localhost:5000/api/cronjob/create",
+							"raw": "localhost:5000/api/upload-file",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
 								"api",
-								"cronjob",
-								"create"
+								"upload-file"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletefile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg0MmQ1YWU1MTA1YWIxMTNjNjg4YzEwIn0sImlhdCI6MTc0OTIxMDc1MiwiZXhwIjoxNzQ5MjE0MzUyfQ.6nJmBgFJ73W5YHRSP6F47fQNE7mK6hJXRRlPKStVPzE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeUlqcDdJbWxrSWpvaU5qZzBPRFZsTjJWaE5UWm1ZamsyTm1Oa05tUmtaV016SW4wc0ltbGhkQ0k2TVRjME9UVTNNelV4T1N3aVpYaHdJam94TnpRNU5UYzNNVEU1ZlEuMjduZU9OYXFsZmQ3RWNnRWMybmJQRG5UNUptMjJLOHFXVThmMFhhNXhfQSIsImV4cGlyZXNBdCI6MTc0OTU3NzExOTY1NX0=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "receipt",
+									"type": "file",
+									"src": "/C:/Users/hp/Pictures/Screenshots/Screenshot (4).png"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/api/delete-file?fileUrl=",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"delete-file"
+							],
+							"query": [
+								{
+									"key": "fileUrl",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getImage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.2:5000/api/uploads/1755950667675-1000076505.jpg",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"2"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"uploads",
+								"1755950667675-1000076505.jpg"
 							]
 						}
 					},
@@ -725,6 +879,19 @@
 								"create"
 							]
 						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "quickbookapi",
+			"item": [
+				{
+					"name": "Add _epense",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
