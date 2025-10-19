@@ -3,8 +3,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import useApi from "../../hooks/useApi";
 import { Layout } from "../Layout/Layout";
 import { Alert } from "../../components/Alert/Alert";
-import html2pdf from "html2pdf.js";
-
 
 const expenseCategories = [
   "Fuel",
@@ -32,81 +30,30 @@ export const ViewExpenseClaim = () => {
   // State for image popup
   const [popupImage, setPopupImage] = useState(null);
 
-  //////////////////  Reject or approve ////////////////////////
-  const toDataURL = (url) =>
-  fetch(url)
-    .then((response) => response.blob())
-    .then(
-      (blob) =>
-        new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result);
-          reader.onerror = reject;
-          reader.readAsDataURL(blob);
-        })
-    );
-
- const handleStatus = (id, status) => async (e) => {
+  // Reject or approve
+  const handleStatus = (id, status) => async (e) => {
   e.preventDefault();
 
-  const confirmMsg =
-    status === "Rejected"
-      ? "Are you sure you want to reject this claim?"
-      : "Are you sure you want to approve this claim?";
+  const confirmMsg = status === "Rejected"
+    ? "Are you sure you want to reject this claim?"
+    : "Are you sure you want to approve this claim?";
 
   if (!window.confirm(confirmMsg)) return;
 
-  if (status === "Approved") {
-   
-      // 1. Generate PDF Blob
-      const element = document.getElementById("expense-claim-pdf");
-     // ✅ Convert all receipt images to Base64 before rendering PDF
-    const imgTags = element.querySelectorAll("img");
-    await Promise.all(
-      Array.from(imgTags).map(async (img) => {
-        const dataUrl = await toDataURL(img.src);
-        img.setAttribute("src", dataUrl); // Replace src with base64
-      })
-    );
+  const endpoint = status === "Rejected"
+    ? `/form/expense/cancel/${id}`
+    : `/form/expense/approve/${id}`;
 
-    // ✅ PDF Options
-    const opt = {
-      margin: 0.5,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-    };
+  const res = await postData(
+    endpoint,
+    { status },
+    `${status} successfully`,
+    "Failed"
+  );
 
-    // ✅ Create Blob
-      const pdfBlob = await html2pdf().set(opt).from(element).outputPdf("blob");
-
-      // 2. Create FormData and append the Blob
-      const formData = new FormData();
-      formData.append("pdf", pdfBlob, `ExpenseClaim_${id}.pdf`);
-
-    try {
-      const res = await postData(`/form/expense/approve/${id}`,
-        formData,
-        'Upload successful',
-        'Upload failed',
-        true // isMultipart
-      );
-      console.log("Upload response:", res);
-
-        setStatus({ type: "success", message: "Approved successfully" });
-        navigate("/expense-history");
-      
-    } catch (error) {
-      console.error("PDF creation or upload failed", error);
-      setStatus({ type: "error", message: "PDF generation/upload failed" });
-    }
-  } else {
-    // Rejected path
-    const endpoint = `/form/expense/cancel/${id}`;
-    const res = await postData(endpoint, { status }, "Rejected successfully", "Failed");
-    navigate("/expense-history");
-  }
+  navigate("/expense-history");
 };
+
 
 
 
@@ -159,85 +106,85 @@ export const ViewExpenseClaim = () => {
           </button>
         )}
       </div>
-      <div id="expense-claim-pdf">
-        <div className="infoSection" >
-          <p>
-            <b>From Date:</b> {generalInfo.fromDate}
-          </p>
-          <p>
-            <b>To Date:</b> {generalInfo.toDate}
-          </p>
-          <p>
-            <b>Name:</b> {generalInfo.name}
-          </p>
-          <p>
-            <b>Approved By:</b> {generalInfo.approvedBy}
-          </p>
-          <p>
-            <b>Notes:</b> {generalInfo.notes}
-          </p>
-        </div>
-        <div className="tableWrapper">
-          <table className="expenseTable">
-            <thead>
-              <tr>
-                <th>Expense</th>
-                {jobs.map((job, i) => (
-                  <th key={i}>{job.name || `Job ${i + 1}`}</th>
-                ))}
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {expenseCategories.map((category, idx) => {
-                return (
-                  <tr key={category} className={idx % 2 === 1 ? "zebraRow" : ""}>
-                    <td>{category}</td>
-                    {jobs.map((job, j) => {
-                      const expense = job.expenses.find((e) => e.category === category) || {};
-                      const amount = Number(expense.amount || 0).toFixed(2);
-                      const receiptUri = expense.receiptUri
-                        ? process.env.REACT_APP_API_BASE_URL + "uploads/" + expense.receiptUri
-                        : false;
-                      const noReceiptReason = expense.noReceiptReason || "";
 
-                      return (
-                        <td key={j}>
-                          <div>£{amount}</div>
-                          {receiptUri && (
-                            <img
-                              className="receiptImg"
-                              src={receiptUri}
-                              alt={`${category} receipt`}
-                              onClick={() => setPopupImage(receiptUri)}
-                              style={{ cursor: "pointer" }}
-                            />
-                          )}
-                          {noReceiptReason && <div className="noReceiptReason">Reason: {noReceiptReason}</div>}
-                        </td>
-                      );
-                    })}
-                    <td>£{Number(total.categoryTotals[idx] || 0).toFixed(2)}</td>
-                  </tr>
-                );
-              })}
-              <tr className="totalsRow">
-                <td>
-                  <b>Total</b>
+      <div className="infoSection">
+        <p>
+          <b>From Date:</b> {generalInfo.fromDate}
+        </p>
+        <p>
+          <b>To Date:</b> {generalInfo.toDate}
+        </p>
+        <p>
+          <b>Name:</b> {generalInfo.name}
+        </p>
+        <p>
+          <b>Approved By:</b> {generalInfo.approvedBy}
+        </p>
+        <p>
+          <b>Notes:</b> {generalInfo.notes}
+        </p>
+      </div>
+      <div className="tableWrapper">
+        <table className="expenseTable">
+          <thead>
+            <tr>
+              <th>Expense</th>
+              {jobs.map((job, i) => (
+                <th key={i}>{job.name || `Job ${i + 1}`}</th>
+              ))}
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {expenseCategories.map((category, idx) => {
+              return (
+                <tr key={category} className={idx % 2 === 1 ? "zebraRow" : ""}>
+                  <td>{category}</td>
+                  {jobs.map((job, j) => {
+                    const expense = job.expenses.find((e) => e.category === category) || {};
+                    const amount = Number(expense.amount || 0).toFixed(2);
+                    const receiptUri = expense.receiptUri
+                      ? process.env.REACT_APP_API_BASE_URL + "uploads/" + expense.receiptUri
+                      : false;
+                    const noReceiptReason = expense.noReceiptReason || "";
+
+                    return (
+                      <td key={j}>
+                        <div>£{amount}</div>
+                        {receiptUri && (
+                          <img
+                            className="receiptImg"
+                            src={receiptUri}
+                            alt={`${category} receipt`}
+                            onClick={() => setPopupImage(receiptUri)}
+                            style={{ cursor: "pointer" }}
+                          />
+                        )}
+                        {noReceiptReason && <div className="noReceiptReason">Reason: {noReceiptReason}</div>}
+                      </td>
+                    );
+                  })}
+                  <td>£{Number(total.categoryTotals[idx] || 0).toFixed(2)}</td>
+                </tr>
+              );
+            })}
+            <tr className="totalsRow">
+              <td>
+                <b>Total</b>
+              </td>
+              {total.jobTotals.map((t, i) => (
+                <td key={i}>
+                  <b>£{Number(t).toFixed(2)}</b>
                 </td>
-                {total.jobTotals.map((t, i) => (
-                  <td key={i}>
-                    <b>£{Number(t).toFixed(2)}</b>
-                  </td>
-                ))}
-                <td>
-                  <b>£{Number(total.subtotal).toFixed(2)}</b>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-    </div>
+              ))}
+              <td>
+                <b>£{Number(total.subtotal).toFixed(2)}</b>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       {/* Image Popup Modal */}
       {popupImage && (
         <div

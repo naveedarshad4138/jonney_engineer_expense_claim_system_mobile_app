@@ -1,3 +1,7 @@
+const axios = require('axios');
+const FormData = require('form-data');
+
+
 const Claims = require('../models/Claims');
 
 // POST: Create a new expense claim
@@ -302,54 +306,77 @@ exports.approveExpenseClaimById = async (req, res) => {
     const adminUser = await User.findById(adminId);
     if (!adminUser) return res.status(404).json({ message: "Approver not found" });
 
-    // 3. Update claim
+    // 3. Update claim's status and approver
     claim.status = "Approved";
     claim.generalInfo = {
       ...claim.generalInfo,
       approvedBy: adminUser.username
     };
 
-    await claim.save();
+    // 4. Prepare FormData for QuickBooks PHP API
+    const form = new FormData();
+    form.append("customerName", claim.generalInfo?.name || "Unknown");
+    form.append("amount", Number(claim.total?.subtotal || 0));
+    form.append("date", claim.generalInfo?.toDate || new Date().toISOString().split('T')[0]);
+    form.append("creditCardAccountId", "42");
+    form.append("expenseAccountId", "58");
 
-    // 4. Build payload for PHP QuickBooks API
-    const quickbooksPayload = {
-      customerName: claim.generalInfo?.name || "Unknown",
-      amount: Number(claim.total?.subtotal || 0),
-      date: claim.generalInfo?.toDate || new Date().toISOString().split('T')[0],
-      creditCardAccountId: "42",
-      expenseAccountId: "58"
-    };
-
-    // 5. POST to PHP endpoint
-    try {
-      const qbResponse = await fetch('https://advancedbml.engineering/api/quickbook/add_expense.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Add Cookie header if needed (only if the PHP endpoint requires it)
-          // 'Cookie': 'PHPSESSID=your-session-id-here'
-        },
-        body: JSON.stringify(quickbooksPayload)
+    // 5. Append PDF file if uploaded
+    if (req.file) {
+      form.append('pdf', req.file.buffer, {
+        filename: req.file.originalname,
+        contentType: req.file.mimetype
       });
-
-      const qbResult = await qbResponse.json();
-      console.log("✅ QuickBooks PHP sync result:", qbResult);
-    } catch (error) {
-      console.error("❌ Failed to sync with QuickBooks PHP API:", error.message);
-      // You can still return success if this fails — or return a warning
+      console.log("✅ File received:", req.file.originalname);
+    } else {
+      console.warn("⚠️ No file received in req.file");
     }
 
+    // 6. Send to QuickBooks PHP API
+    const qbResponse = await axios.post(
+      'https://advancedbml.engineering/api/quickbook/add_expense.php',
+      form,
+      {
+        headers: {
+          ...form.getHeaders()
+        }
+      }
+    );
+
+    console.log("✅ QuickBooks PHP sync result:", qbResponse.data);
+
+    // 7. Save QuickBooks data into claim
+    const purchase = qbResponse.data?.purchase;
+    const attachment = qbResponse.data?.attachment?.AttachableResponse?.[0]?.Attachable;
+
+    if (qbResponse.data.success && purchase && attachment) {
+      claim.quickbooks = {
+        purchaseId: purchase.Id,
+        attachmentId: attachment.Id,
+        attachmentUrl: attachment.TempDownloadUri || attachment.FileAccessUri,
+        syncedAt: new Date(),
+        fullResponse: qbResponse.data
+      };
+    }
+
+    // 8. Save claim
+    await claim.save();
+
+    // 9. Respond
     res.status(200).json({
       message: "Claim approved and QuickBooks sync triggered",
       results: {
         claimId: claim._id,
         status: claim.status,
-        approvedBy: adminUser.name
+        approvedBy: adminUser.username,
+        quickbooksResponse: qbResponse.data
       }
     });
 
   } catch (error) {
     console.error("❌ Error approving claim:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
+
+

@@ -43,6 +43,13 @@ const ExpenseClaimSchema = new Schema({
     enum: ['Pending', 'Approved', 'Rejected'],
     default: 'Pending',
   },
+  quickbooks: {
+    purchaseId: String,
+    attachmentId: String,
+    attachmentUrl: String,
+    syncedAt: Date,
+    fullResponse: Object // Optional: for storing full QuickBooks response (debugging/auditing)
+  },
   createdAt: { type: Date, default: Date.now },
 });
 
