@@ -197,19 +197,74 @@ function getRealmId() {
 //         return ["error" => "QBO API Error: HTTP $statusCode", "response" => $result];
 //     }
 // }
-function callQBOApi($url, $body = null, $method = 'GET') {
+// function callQBOApi($url, $body = null, $method = 'GET') {
+//     $tokens = getTokens();
+//     if (!$tokens || !isset($tokens['access_token'])) {
+//         return null;
+//     }
+
+//     $accessToken = $tokens['access_token'];
+
+//     $headers = [
+//         "Authorization: Bearer {$accessToken}",
+//         "Accept: application/json",
+//         "Content-Type: application/json"
+//     ];
+
+//     $ch = curl_init($url);
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+//     switch (strtoupper($method)) {
+//         case 'POST':
+//             curl_setopt($ch, CURLOPT_POST, true);
+//             break;
+//         case 'PUT':
+//         case 'DELETE':
+//             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
+//             break;
+//     }
+
+//     if ($body !== null && in_array(strtoupper($method), ['POST', 'PUT'])) {
+//         curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+//     }
+
+//     $response = curl_exec($ch);
+//     $error = curl_error($ch);
+//     $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//     curl_close($ch);
+
+//     if ($error) {
+//         return ["error" => "cURL Error: $error"];
+//     }
+
+//     $result = json_decode($response, true);
+//     if ($statusCode >= 200 && $statusCode < 300) {
+//         return $result;
+//     } else {
+//         return [
+//             "error" => "QBO API Error: HTTP $statusCode",
+//             "response" => $result
+//         ];
+//     }
+// }
+function callQBOApi($url, $body = null, $method = 'GET', $customHeaders = []) {
     $tokens = getTokens();
     if (!$tokens || !isset($tokens['access_token'])) {
-        return null;
+        return ["error" => "Missing or invalid access token"];
     }
 
     $accessToken = $tokens['access_token'];
 
-    $headers = [
+    // Default headers (used unless overridden)
+    $defaultHeaders = [
         "Authorization: Bearer {$accessToken}",
         "Accept: application/json",
         "Content-Type: application/json"
     ];
+
+    // Use custom headers if provided, otherwise default
+    $headers = $customHeaders ?: $defaultHeaders;
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
