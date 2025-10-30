@@ -10,7 +10,7 @@ export const UserForm = ({ id }) => {
         email: '',
         // password: '123',
         currentFloat: '',
-        // role: 'Admin',
+        role: 'Admin',
     });
 
     // If editing, fetch user data
@@ -83,7 +83,7 @@ export const UserForm = ({ id }) => {
                             onChange={handleChange}
                             required="" />
                     </div>
-                    <div className="form-group d-none">
+                    <div className="form-group">
                         <label htmlFor="role">Role</label>
                         <select id="role" name="role" required="" value={formData.role} onChange={handleChange} >
                             <option value="">Select Role</option>
